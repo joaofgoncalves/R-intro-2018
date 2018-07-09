@@ -1,0 +1,49 @@
+---
+title: 'R-intro: software installation in Windows'
+author: "João Gonçalves"
+date: "7 de Julho de 2018"
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 4
+    fig_height: 0.5
+  html_document: default
+---
+
+
+# Installing the required software for the course
+
+
+The following software are required/mandatory to the course:
+
+- _R_ version 3.5 (as of 7/7/2018) [http://cran.radicaldevelop.com/] (the portuguese CRAN mirror)
+
+- _RStudio_ version 1.1.453 (as of 7/7/2018) [https://www.rstudio.com/products/rstudio/download/#download]
+
+
+# Installing optional software for the course
+
+
+The following software is optional (but recommended) to this R-intro course. Since the course will mainly be developed in Rmarkdown format, it is generally a good idea enabling RStudio to create pdf files. We will also install a set of functionalities that will
+allow R to build package in Windows-
+
+Enabling R to build packages in Windows:    
+
+- Install _RTools_ - check which version corresponds to your installed R (usually the most recent is recommended) [https://cran.r-project.org/bin/windows/Rtools/index.html]
+
+
+Enabling R to build pdf files from RMarkdown/LaTeX:
+
+- Install _MiKTeX_ from [https://miktex.org/download]
+
+
+### RTools and MiKTeX post-installation
+
+
+After installing these two programs, verify if the _Path_ environmental variable (go to: Control Panel > System > Advanced > Environmental variables) actually contains the two following paths for _Rtools_ and _MiKTeX_ binaries:
+
+- __"C:/Rtools/bin"__ (this may be different depending on the installation path of RTools)
+
+- __"C:/Rtools/gcc-X.xx/bin"__ (X.xx - version number of the compiler; this may be different depending on the installation path of RTools)
+
+- __"C:/MiKTeX/miktex/bin/x64/"__ (also depends on MiKTeX installation path)
