@@ -98,4 +98,6 @@ Don't worry we will start slowly! :-) As such, you don't really need any prior k
     
     - Making pretty plots in ggplot2     
     
+ - Logistic regression ??
+    
  - Other topics in R-intro??
