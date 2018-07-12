@@ -3,11 +3,11 @@ title: 'R-intro: session 1'
 author: "João Gonçalves"
 date: "7 de Julho de 2018"
 output:
+  html_document: default
   pdf_document:
     toc: true
     toc_depth: 4
     fig_height: 0.5
-  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -17,12 +17,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Objectives of session 1
 
-==============================================================
-
 
  - Exploring RStudio environment and workflow
  
- - Understanding the basics of _Rmarkdown_ format
+ - Understanding the basics of Rmarkdown
  
  - Starting a work session
  
@@ -30,98 +28,51 @@ knitr::opts_chunk$set(echo = TRUE)
  
  - R as a (sophisticated) calculator
  
- - Vectors and matrices: understanding the differences
+ - Vectors and matrices: understanding the  differences
  
- - Vector and matrix indexation
+ - Indexation and sub-setting
+ 
+
+# Starting a work session in R/RStudio
+
+1. Create a new directory/folder where all the elements of the session will be saved to. Avoid folder names with special characters (i.e., \ / : * ? < > | [ ] & $ , .).
+
+2. In RStudio define the working directory using the folder created in step I.2. To do this in RStudio graphical interface go to: Session > Set Working Directory > Choose directory. This procedure can also be done using the following line of code (don't forget to use the correct path within the quotation marks!):
 
 
-# Starting the course work session in R/RStudio
+```{r eval=FALSE, include=TRUE}
 
-==============================================================
+# select the line and press Ctrl + Enter
+# Note: if you use the backslash to enter your working directory
+# don't forget to escape it using a double backslash, i.e.:
+# "C:\\Users\\myUserName\\Documents\\R-intro"
 
+setwd("C:/Users/JG/Desktop/R-intro")
 
-[__PLEASE READ THE INSTRUCTIONS BELOW VERY CAREFULLY__]
-
-__Note 1__: Probably, you already received some initial instructions to download and start the course project so, if that happened, ignore steps 1 to 3
-
-__NOTE 2__: If you did not follow any specific instructions, please go through steps 1 to 3 to guarantee that you have the right files and setup
-
-
-  1. In your internet browser go to the R introduction lessons repository in GitHub: [https://github.com/joaofgoncalves/R-intro-2018]
-
-  2. Download the complete repository using the right green "__Clone or download__" button and select the "__Download zip __" option;
-
-  3. After completing the download, uncompress the zip file to a location of your choice;
-
-  4. Open _RStudio_ and go to: _File_ > _Open project..._ > navigate to the project location, select the _R-intro-course.Rproj_ file and select open;
-
-  5. If everything is OK, then you should have a working session with the course files directly available;
-
-  6. Also, in the console tab, you should be able to see that the working directory is set to your project's folder.
-
-
-# R markdown overview
-
-==============================================================
-
-
-  - In a nutshell, RMarkdown allows blending text and R code in a seamless way, allowing to create beautiful HTML or PDF documents (among other formats) that combine the two
-  
-  - Text is simply what you are reading right now and, R code is put into special blocks or chunks, like this:
-  
-```{r}
-
-# Hi! I am a comment inside a R code chunk
-
-print("Hello World!") # I am a line of R code
 
 ```
 
-  - R code chunks will actually be interpreted and processed by R
 
-  - To run the whole code chunk press the green triangle (play button) on the right side
-  
-  - To a run a single line, place the mouse cursor on it and press _Ctrl_ + _Enter_
+3. In the following sections start by inspecting and testing the examples (inside the grey boxes) and then try to solve the exercises. Copy the content of the box to your script file then select the line(s) you want to test and press the "Run" button > "Run Selected Line(s)" (Figure 1) or press _"Ctrl" + "Enter"_
 
-  - To run (one or) several lines, use first the cursor to select them and then press _Ctrl_ + _Enter_
-  
-  - The output of the chunk will be printed below it and also in the R Console tab
-
-  
-> __A couple of sidenotes__:
-  
-  > Although RMarkdown format is extremely useful, in many cases using a simple R script for analyses is enough or even recommended (for that you just have to go to File > New File > R Script)
-
-  > Check out what can be done with RMarkdown in this site: [https://rmarkdown.rstudio.com/gallery.html]
-
-
-# RStudio quick tips
-
-==============================================================
-
-
+![RStudio run button](images/session01/RStudio-run-button.png)
+         
+or Ctrl + Enter. 
 
 Note 1) if the R prompt gets too cluttered just click on its window tab and then press Ctrl + L; 
 
 Note 2) if you want to see which objects are currently listed in the R session just go to the following window tab (Figure 2) 
 
-![RStudio tabs with option "Environment" showing" objects in memory](../Session-01/images/RStudio-environment-tab.png)
+![RStudio tabs with option "Environment" showing" objects in memory](images/session01/RStudio-environment-tab.png)
       
          
-Alternatively, you can type `ls()` followed by "Enter" directly in the R console to see a list of the objects (of course if you do this right on the beginning of the session then R Environment will be empty or it will issue `character(0)` which means that no objects or data were created yet ;-)
+Alternatively, you can type `ls()` followed by "Enter"" directly in the R console to see a list of the objects (of course if you do this right on the beginning of the session then R Environment will be empty or it will issue `character(0)` which means that no objects or data were created yet. ;-)
 
 Note 3) In R comments or notes can be inserted after the hash tag sign # (the R compiler just ignores what is after #). Use this to organize your scripts and to enter additional notes that you would like to remember after.
 
 
-_NOW WE ARE READY TO START!_ :-D
-
-In the following sections start by inspecting and testing the examples (inside the grey boxes) and then try to solve the exercises. Copy the content of the box to your script file then select the line(s) you want to test and press the "Run" button > "Run Selected Line(s)" (Figure 1) or press _"Ctrl" + "Enter"_
-
-
-
 # Using the help system
 
-==============================================================
 
 R has a very efficient help system that should be used whenever a question or doubt appears about a certain function, operator or data structure. Besides documentation regarding each individual function or procedure this system also contains several working examples.
 
@@ -130,7 +81,7 @@ R has a very efficient help system that should be used whenever a question or do
 # Allows to search the help system about the term or expression 
 # within the quotation marks
 
-help.search("anova", package="stats")
+help.search("anova")
 ??"k-means"
 
 # This allows to search the help system about the function of 
@@ -157,6 +108,11 @@ example(plot)
 
 #1)
 
+?mean
+
+?sd
+?quantile
+?mad
 
 ```
 
@@ -168,7 +124,10 @@ example(plot)
 
 ```{r eval=FALSE, include=TRUE}
 
-# 2a)
+# 2a) 
+
+help.search("weighted-mean") # search by term
+??"Weighted-mean"
 
 ```
 
@@ -176,18 +135,22 @@ example(plot)
 
 # 2b)
 
+help.search("correlation")
+
+?cor
+
 ```
 
 ```{r eval=FALSE, include=TRUE}
 
 # 2c)
 
+help.search("linear model")
+
 ```
 
 
 # Operations with vectors
-
-==============================================================
 
 
 ## Basic operations
@@ -221,7 +184,7 @@ y ^ 3          # power
 sqrt(y)        # square-root
 log10(x)       # logarithm of base 10
 
-cos(pi / 4)    # co-sine, pi=3.141593... is a R constant
+cos(pi / 4)    # co-sine, pi=3.141593 is a R constant
 sin(pi / 4)    # sine
 tan(pi / 4)    # tangent
 
@@ -232,30 +195,36 @@ tan(pi / 4)    # tangent
 ### Exercise 3
 
 
-3. Create the variables `x` and `y` respectively with the following values: 10.2 and 5.7. In case of doubts, check the following help entry regarding arithmetic operators: `?Arithmetic`
+3. Create the variables x and y respectively with the following values: 10.2 and 5.7. In case of doubts, check the following help entry regarding arithmetic operators: `?Arithmetic`
 
 Now, calculate the expressions in each of the following equations:      
 
-a)
-![](../Session-01/images/ex3-a-equation.png)
+a) 
+![](images/session01/ex3-a-equation.png)
 
 ```{r  eval=TRUE, include=TRUE}
 
 # 3a)
 
+x <- 10.2
+y <- 5.7
+(x + y) / 2
+
 ```
 
 b)      
-![](../Session-01/images/ex3-b-equation.png)
+![](images/session01/ex3-b-equation.png)
 
 ```{r  eval=TRUE, include=TRUE}
 
 # 3b)
 
+(1/2) * x^2 - log10(y)
+
 ```
 
 c)
-![](../Session-01/images/ex3-c-equation.png)         
+![](images/session01/ex3-c-equation.png)         
 
 Calculate the above expression and use `print()` function to see the calculated value in `z`  
 
@@ -263,13 +232,22 @@ Calculate the above expression and use `print()` function to see the calculated 
 
 # 3c)
 
+z <- sqrt(cos(pi / 4)) + 2 * x
+
+print(z)
+
 ```
 
 d) Get the value of z (from the previous exercise) with one decimal plate only (use the function `round()`; see the help system using `?round` to check the arguments of this function);
 
 ```{r  eval=TRUE, include=TRUE}
 
-# 3c)
+# 3d)
+
+?round
+
+# Use function round with one decimal place
+round(z, digits = 1)
 
 ```
 
@@ -320,6 +298,10 @@ These values are related to the average temperature of the hottest month (a bioc
 
 # t.max vector
 
+t.max <- c(20.7, 18.9, 20.8, 18.8, 19.2, 18.6, 20.5, 20, 19.1, 21.3, 16.9, 18.6) 
+
+print(t.max)
+
 ```
 
 Next, create a string (or character) variable named `est.clim` containing the names of the climatic stations associated with the temperature records: 
@@ -329,6 +311,10 @@ Next, create a string (or character) variable named `est.clim` containing the na
 ```{r eval=TRUE, include=TRUE}
 
 # est.clim vector
+
+est.clim <- c("Anadia", " Mira", "Nelas", "Guarda", "Caramulo", "S. Jacinto", "Viseu", "S. Muna", "Estarreja", "Fig. Cast. Rodrigo", "Arouca", "Moimenta")
+
+print(est.clim)
 
 ```
 
@@ -341,13 +327,19 @@ a) Add 100 to `t.max` and then calculate the square-root. What happens to the ve
 
 # 4a)
 
+sqrt(t.max + 100)
+print(sqrt(t.max + 100))
+
+# R has reciclyng so calculations are applied to all elements in the vector 
 ```
 
 b) Determine the size of the `est.clim` vector. Which function did you use?
 
 ```{r eval=TRUE, include=TRUE}
 
-# 4a)
+# 4b)
+
+length(t.max)
 
 ```
 
@@ -355,7 +347,9 @@ c) Calculate the mean and the standard-deviation of `t.max`;
 
 ```{r eval=TRUE, include=TRUE}
 
-# 4a)
+# 4c)
+mean(t.max)
+sd(t.max)
 
 ```
 
@@ -363,7 +357,11 @@ d) Calculate `t.max` quartiles and plot them (check functions quantile and boxpl
 
 ```{r eval=TRUE, include=TRUE}
 
-# 4a)
+# 4d)
+
+quantile(t.max)
+
+boxplot(t.max)
 
 ```
 
@@ -388,6 +386,8 @@ print(b)
 # Using the function seq() it is possible to generate sequences with a 
 # defined start, end, length or incrementing by a certain amount
 
+seq(from = 1, to = 21, by = 2)
+
 seq(from = 1, to = 5, length = 4) # [1] 1.000 2.333 3.667 5.000
 seq(length = 10, from = -2, by = 0.2) # [1] -2.0 -1.8 ... -0.2
 
@@ -408,13 +408,32 @@ a) Create a vector named k containing a regular sequence from 10 to 100 using th
 
 # 5a)
 
+k <- 10:100
+print(k)
+sum(k)
+
 ```
 
-b) Create a vector named v containing a sequence of values from `-pi` to `pi` with intervals of `pi / 100` using the function `seq()`. Then, make a xy-plot of `u = sin(v)` using the values previously inputted in `v` (check function `plot()` for making this graph).
+b) Create a vector named `v` containing a sequence of values from $-\pi$ to $\pi$ with intervals of $\pi / 100$ using the function `seq()`. Then, make a xy-plot of $u = sin(v)$ using the values previously inputted in v (check function `plot()` for making this graph).
 
 ```{r eval=TRUE, include=TRUE}
 
-# 5b)
+# 5b) 
+
+v <- seq(from = -pi, to = pi, by = pi/100)
+print(v)
+
+u <- sin(v)
+print(u)
+
+# type defines the geometry of the plot ("l" - line)
+# lwd defines the line width
+# col defines the line color
+
+
+plot(x = v, y = u, col = "blue", lwd = 1.5, type = "l")
+
+plot(x = v, y = sin(v), col = "blue", lwd = 1.5, type = "l")
 
 ```
 
@@ -464,7 +483,7 @@ c) All elements
 
 ```{r}
 # Put here the correct answer inside the quotation marks:
-print("")
+print("c")
 ```
 
 - Which Boolean value appears when a condition is positively verified and what is the corresponding integer value? Select the correct answer:
@@ -479,7 +498,7 @@ d) FALSE which means 1
 
 ```{r}
 # Put here the correct answer inside the quotation marks:
-print("")
+print("c")
 ```
 
 - Without running the following R code fragment `sum( (1:10) > 5 )` try to guess what would be the correct output for it - select the correct answer:
@@ -496,7 +515,7 @@ e) 5
 
 ```{r}
 # Put here the correct answer inside the quotation marks:
-print("")
+print("e")
 ```
 
 
@@ -505,9 +524,9 @@ print("")
 
 Any element (or set of elements) contained in a vector or matrix can be accessed through its index (or indices). 
 
-To do this in R, the square brackets operator is used after the variable name, for example: `x[3]` which will select the 3rd element of `x`, or, `x[c(1,3,5)]` which will select the elements in the 1^st^, 3^rd^ and 5^th^ positions. 
+To do this in R, the square brackets operator is used after the variable name, for example: `x[3]` which will select the 3rd element of `x`, or, `x[c(1,3,5)]` which will select the elements in the 1st, 3rd and 5th positions. 
 
-Besides positions given by integer values, indices can also use logical or name values. Using indices also allows to change certain specific values or ranges of values contained in vectors (or even matrices). 
+Besides positions given by integer values, indices can also use logical or name values. Using indices also allows to change certain specific or ranges of values contained in vectors (or matrices). 
 
 Check the examples below:
 
@@ -532,7 +551,7 @@ x[(x >= 100) & (x < 220)] # Elements within the interval [100, 220[
 
 # Change values:
 x[5] <- 100 # Change the value in position 5
-x[c(7,9)] <- c(23, 45) # Change the values in position 7 and 9
+x[10] <- NA # Change the value in position 10 to â€˜no dataâ€™ (NA)
 
 ```
 
@@ -546,7 +565,8 @@ a)	Assign the names of the climatic stations (`est.clim`) to the temperature rec
 ```{r eval=TRUE, include=TRUE}
 
 # 6a)
-
+names(t.max) <- est.clim
+print(t.max)
 ```
 
 b)	Select the first five elements of `t.max` using a sequence of integers;
@@ -554,7 +574,7 @@ b)	Select the first five elements of `t.max` using a sequence of integers;
 ```{r eval=TRUE, include=TRUE}
 
 # 6b)
-
+t.max[1:5]
 ```
 
 c)	Get the temperature values for stations "Anadia" and "Nelas" (using selection/indexation by name);
@@ -562,54 +582,51 @@ c)	Get the temperature values for stations "Anadia" and "Nelas" (using selection
 ```{r eval=TRUE, include=TRUE}
 
 # 6c)
-
+t.max[c("Anadia","Nelas")]
 ```
 
-d)	Which climatic stations have temperature values above 20 ÂºC and below or equal to 21 ºC;
+d)	Which climatic stations have temperature values above 20 ÂºC and below or equal to 21 ÂºC;
 
 ```{r eval=TRUE, include=TRUE}
 
 # 6d)
-
+t.max[(t.max > 20) & (t.max <= 21)]
 ```
 
-e)	Change the value of the "Guarda" station to 19 ºC;
+e)	Change the value of the "Guarda" station to 19 ÂºC;
 
 ```{r eval=TRUE, include=TRUE}
-
 # 6e)
-
+t.max["Guarda"] <- 19
 ```
 
 
 # Matrix operations
 
-==============================================================
 
-
-Matrices in R allow to efficiently store and organize data of one type (logical, numeric, character, etc.) in a bi-dimensional structure (rows x columns). 
+Matrices in R allow to efficiently store and organize data of one type (logical, numeric, character, etc.) in a bi-dimensional structure (rows Ã— columns). 
 
 It is possible to use names for the rows and the columns to select them appropriately. 
 
-Matrices also allow specific operations to be performed, such as multiplication (`%*%`), the transpose (`t()` function), the determinant (`det()` function) or solving systems of linear equations of the type Ax = b using the function `solve()`.
+Matrices also allow specific operations to be performed, such as multiplication (%*%), the transpose (t() function), the determinant (det() function) or solving systems of linear equations of the type Ax = b using the function solve().
 
 
 ## Generating matrices
 
 
-From a vector of data and using the function matrix it is possible to control several aspects of matrix generation. It is possible to choose the number of rows (nrow), columns (ncol) and the orientation of matrix filling (byrow). If `FALSE` (the default option) the matrix is filled by columns, otherwise the matrix is filled by rows. Also, the argument dimnames allows to set the names of rows and columns.
+From a vector of data and using the function matrix it is possible to control several aspects of matrix generation. It is possible to choose the number of rows (nrow), columns (ncol) and the orientation of matrix filling (byrow). If FALSE (the default option) the matrix is filled by columns, otherwise the matrix is filled by rows. Also, the argument dimnames allows to set the names of rows and columns.
 
 
 ```{r eval=FALSE, include=TRUE}
 
-# Generate the 3x3 identity matrix:
+# Generate the 3 Ã— 3 identity matrix:
 id <- matrix(c(1,0,0,0,1,0,0,0,1), nrow = 3)
 
 # Generate a matrix with 2 rows filled by row:
 vector<-c(1,2,3,4,4,3,2,1)
 v <- matrix(vector, byrow = TRUE, nrow = 2)
 
-# Generate a 10x10 matrix with filling by row:
+# Generate a 10Ã—10 matrix with filling by row:
 m <- 1:100
 dim(m) <- c(10, 10)  # or alternatively:
 m <- matrix(data = 1:100, nrow = 10, ncol = 10, byrow = FALSE)
@@ -665,7 +682,7 @@ m[1,,drop="FALSE"]  # a line
 7. The Ministry of Health performed a survey about the average percentage of smokers by gender and city in several schools of the country. Using the data in the table below answer the following questions:
 
 
-	      Aveiro	Braga	Bragança	Porto	Coimbra	Covilhã	Leiria	Lisboa	Setúbal	Faro
+	      Aveiro	Braga	BraganÃ§a	Porto	Coimbra	CovilhÃ£	Leiria	Lisboa	SetÃºbal	Faro
 	      
 Women	   50.3	   60.6	  71.5	   82.3	  59.9	 79.3	   41.4	   80.9	   72.1	  59.1
 
@@ -729,5 +746,5 @@ f) For each city indicate which gender has the highest percentage of smokers (hi
 ```
 
  
-Now that you finished and if MikTex or other LaTeX generattor is avaiable on your system press the option _Knit_ > _Knit to HTML_ to make a complete HTML page with these exercises or just 
+
 
