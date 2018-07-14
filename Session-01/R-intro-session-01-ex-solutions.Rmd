@@ -1,0 +1,408 @@
+---
+title: "Session 01 - Exercise solutions"
+author: "João Gonçalves"
+date: "14 de Julho de 2018"
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 4
+  html_document: default
+---
+
+
+# Using the help system
+
+---------------------------------------------------------------------------------------------------------
+
+
+### Exercise 1
+
+```{r eval=FALSE, include=TRUE}
+
+#1) 
+
+# Mean function
+?mean
+
+# standard-deviation
+?sd
+
+# Calculate quantiles
+?quantile
+
+# Calculate the Median Absolute Deviation (MAD)
+?mad
+
+```
+
+
+### Exercise 2
+
+2a) 
+```{r eval=FALSE, include=TRUE}
+
+# 2a)
+
+??'weighted mean'
+help.search("weighted average")
+
+```
+
+2b) 
+```{r eval=FALSE, include=TRUE}
+
+# 2b)
+??'correlation'
+help.search("correlation")
+
+```
+
+2c) 
+```{r eval=FALSE, include=TRUE}
+
+# 2c)
+??'linear model'
+help.search("linear model")
+
+```
+
+
+# Operations with vectors
+
+---------------------------------------------------------------------------------------------------------
+
+
+## Basic operations
+
+
+### Exercise 3
+
+Define the variables first:
+
+```{r  eval=TRUE, include=TRUE}
+
+x <- 10.2
+y <- 5.7
+
+```
+
+3a) 
+```{r  eval=TRUE, include=TRUE}
+
+# 3a)
+(x + y) / 2
+
+```
+
+3b) 
+```{r  eval=TRUE, include=TRUE}
+
+# 3b)
+(1/2) * x^2 - log10(y)
+
+```
+
+3c)
+```{r  eval=TRUE, include=TRUE}
+
+# 3c)
+z <- sqrt(cos(pi/4)) + 2*x
+print(z)
+
+```
+
+3d)
+```{r  eval=TRUE, include=TRUE}
+
+# 3d)
+round(z, 1)
+
+```
+
+
+## Concatenating multiple values in vectors
+
+### Exercise 4
+
+Start by defining the data vectors:
+
+```{r eval=TRUE, include=TRUE}
+
+# t.max vector
+t.max <- c(20.7,18.9, 20.8, 18.8, 19.2, 18.6, 20.5, 
+         20, 19.1, 21.3, 16.9, 18.6)
+
+# est.clim vector
+est.clim <- c("Anadia", "Dunas de Mira", "Nelas", "Guarda","Caramulo", "S. Jacinto", 
+            "Viseu", "Serra da Muna", "Estarreja", "Fig. Cast. Rodrigo", "Arouca/S.Freita",
+            "Moimenta da Beira")
+
+```
+
+4a) 
+```{r eval=TRUE, include=TRUE}
+
+# 4a)
+sqrt(t.max + 100)
+
+```
+
+The function was applied to all elements - in R terminology this is a property of base functions called 'recycling'
+
+4b)
+```{r eval=TRUE, include=TRUE}
+
+# 4b)
+length(t.max)
+
+```
+
+4c)
+```{r eval=TRUE, include=TRUE}
+
+# 4c)
+mean(t.max)
+sd(t.max)
+
+```
+
+4d)
+```{r eval=TRUE, include=TRUE}
+
+# 4d)
+
+# Calculate quartiles (the default behaviour of quantile function)
+quantile(t.max)
+
+# Make a boxplot
+boxplot(t.max)
+
+# Calculate the median
+quantile(t.max)["50%"]
+
+# or, more directly
+median(t.max)
+
+```
+
+
+## Generating sequences of values
+
+
+### Exercise 5
+
+
+5a)
+```{r eval=TRUE, include=TRUE}
+
+# 5a)
+
+k <- 10:100
+
+sum(k)
+
+```
+
+5b) 
+```{r eval=TRUE, include=TRUE}
+
+# 5b)
+
+# Make v vector
+v <- seq(-pi, pi, by = pi/100)
+
+# Compute the sin as u
+u <- sin(v)
+
+# Now let´s plot the two vectors in x and y
+plot(v, u, type="l", lwd=2, col="blue", main="Sine function")
+
+# Make the plot more pretty with some grid lines
+abline(h=0,v=0,lty=2,col="black")
+abline(v=pi/2,col="light grey",lty=2)
+abline(v=-pi/2,col="light grey",lty=2)
+
+
+# Alternatively, plotting a function can be accomplished more directly like this:
+plot(sin, -pi, pi) # see ?plot.function
+
+```
+
+
+## Logical operations
+
+
+### Quick exercises
+
+QE 1)
+```{r}
+# correct answer:
+print("c")
+
+# Let's see one example of logical operations recycling:
+a <- 1:20
+a >= 10
+
+```
+
+QE 2)
+```{r}
+# correct answer:
+print("c")
+
+# Let's check
+print(as.numeric(FALSE))
+print(as.numeric(TRUE))
+
+```
+
+QE 3)
+```{r}
+# correct answer:
+print("e")
+
+# But let's check:
+sum( (1:10) > 5 )
+
+```
+
+
+## Vector indexation
+
+
+### Exercise 6 (logical operations and vector indexation)
+
+
+6a)	
+```{r eval=TRUE, include=TRUE}
+
+# Input the data again (just in case... ;-)
+
+t.max <- c(20.7, 18.9, 20.8, 18.8, 19.2, 18.6, 20.5, 20, 19.1, 21.3, 16.9, 18.6)
+
+est.clim <- c("Anadia", "Mira", "Nelas", "Guarda", "Caramulo", "S. Jacinto", "Viseu", 
+              "S. Muna", "Estarreja", "Fig. Cast. Rodrigo", "Arouca", "Moimenta")
+
+
+## 6a) Now define the names attributed to each value in the t.max vector
+names(t.max) <- est.clim
+print(t.max)
+
+```
+
+6b)
+```{r eval=TRUE, include=TRUE}
+
+# 6b)
+t.max[1:5]
+
+```
+
+6c)
+```{r eval=TRUE, include=TRUE}
+
+# 6c)
+t.max[c("Anadia","Nelas")]
+
+```
+
+6d)
+```{r eval=TRUE, include=TRUE}
+
+# 6d) Combine two logical conditions separated by () and combined by the & (AND) operator
+t.max[(t.max > 20) & (t.max <= 21)]
+
+```
+
+6e)
+```{r eval=TRUE, include=TRUE}
+
+# 6e)
+# Notice that we accessing one element in the left-hand side and attributing a value 
+# in the right-hand side
+t.max["Guarda"] <- 19
+
+# or using position indexation:
+t.max[4] <- 19
+
+```
+
+
+# Matrix operations
+
+---------------------------------------------------------------------------------------------------------
+
+
+## Matrix indexing
+
+### Exercise 7
+
+7a)
+```{r eval=TRUE, include=TRUE}
+
+# 7a) The correct option is:
+print("iv")
+
+```
+
+7b)
+```{r eval=TRUE, include=TRUE}
+
+# 7b) Input the data into R
+smokers<-matrix(c(50.3, 60.6, 71.5, 82.3, 59.9, 79.3, 41.4, 80.9, 72.1, 59.1,
+                  54.4, 52.4, 67.1, 78.3, 59.2, 65.1, 86.3, 81.3, 57.3, 61.3),
+                ncol=10,nrow=2,byrow=TRUE)
+
+# Add row and column names
+rownames(smokers) <- c("W","M")
+colnames(smokers) <- c("Aveiro", "Braga", "Bragança", "Porto", "Coimbra",
+                       "Covilhã", "Leiria", "Lisboa", "Setúbal", "Faro")
+print(smokers)
+
+```
+	
+7c)
+```{r eval=TRUE, include=TRUE}
+
+# 7c) Index the column by name
+mean(smokers["M",])
+# or, by row number
+mean(smokers[2,])
+
+```
+	
+7d)
+```{r eval=TRUE, include=TRUE}
+
+# 7d) Use sorting based on the first row (women data by city)
+#
+sort(smokers[1,], decreasing=TRUE)[1:2]
+
+```
+	
+7e)
+```{r eval=TRUE, include=TRUE}
+
+# 7e) Use sorting based on the difference between groups
+#
+sort(smokers[2,] - smokers[1,], decreasing=TRUE)[1]
+
+```
+
+7f) 
+```{r eval=TRUE, include=TRUE}
+
+# 7f) calculate by column the index of where the maximum value is 1 - women and 2 - men
+#
+smkStats <- apply(smokers, 2, which.max)
+
+# Now change the resulting vector from above
+smkStats[smkStats == 1] <- "Women"
+smkStats[smkStats == 2] <- "Men"
+
+print(smkStats)
+
+```
+
+
+
