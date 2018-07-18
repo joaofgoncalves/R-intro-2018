@@ -3,10 +3,10 @@ title: "Session 01 - Exercise solutions"
 author: "João Gonçalves"
 date: "14 de Julho de 2018"
 output:
+  html_document: default
   pdf_document:
     toc: true
     toc_depth: 4
-  html_document: default
 ---
 
 
@@ -43,8 +43,8 @@ output:
 
 # 2a)
 
-??'weighted mean'
-help.search("weighted average")
+??'Weighted Arithmetic Mean'
+help.search("Weighted Arithmetic Mean")
 
 ```
 
@@ -383,9 +383,9 @@ sort(smokers[1,], decreasing=TRUE)[1:2]
 7e)
 ```{r eval=TRUE, include=TRUE}
 
-# 7e) Use sorting based on the difference between groups
+# 7e) Use sorting based on the absolute difference between groups
 #
-sort(smokers[2,] - smokers[1,], decreasing=TRUE)[1]
+sort(abs(smokers[2,] - smokers[1,]), decreasing=TRUE)[1]
 
 ```
 

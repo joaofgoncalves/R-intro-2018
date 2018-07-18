@@ -1,0 +1,257 @@
+
+R-intro - session #1 recap
+========================================================
+author: João Gonçalves
+date: 17 July 2018
+autosize: true
+css: custom.css
+
+Assignment operator <-
+========================================================
+class: small-code
+
+- Everything starts with an assignement! :-)
+
+```{r eval=FALSE, include=TRUE}
+
+variableName <- value
+
+```
+
+- Simple arithmetic operations:
+
+```{r eval=TRUE, include=TRUE}
+x <- 10
+y <- 7.25
+
+z <- x + y
+
+print(z)
+```
+
+
+Functions
+========================================================
+class: small-code
+
+- Functions calls are composed by the function name and a series of values for the different parameters inside `( )`
+
+```{r eval=FALSE, include=TRUE}
+
+funName(arg1 = value1, arg2 = value2, arg3 = value3)
+
+```
+
+An example:
+
+```{r eval=TRUE, include=TRUE}
+
+data(iris)
+
+quantile(x = iris[,"Sepal.Length"], probs = 0.25, na.rm = TRUE)
+```
+
+Scalars, vectors and matrices
+========================================================
+class: small-code
+left: 40%
+
+From simple to more complex:
+
+- __Scalar__: single value
+- __Vector__: multiple values (one type only)
+- __Matrix__: multiple rows and columns (one type only)
+- __Data frame__: multiple rows and columns (multiple types)
+
+***
+
+![](scalar-to-matrix.png)
+
+
+Scalars, vectors and matrices
+========================================================
+class: small-code
+
+- The `c()` function is used to concatenate multiple values in vectors
+
+```{r eval=TRUE, include=TRUE, echo=TRUE}
+x <- c(1, 2, 10, 1000)
+print(x)
+
+pt_cities <- c("Viseu", "Porto", "Lisboa")
+print(pt_cities)
+
+length(pt_cities)
+```
+
+
+Scalars, vectors and matrices
+========================================================
+class: small-code
+
+- The function `matrix()` is used to create matrices
+
+```{r eval=TRUE, include=TRUE, echo=TRUE}
+m <- matrix(1:9, nrow = 3, ncol = 3)
+print(m)
+
+nrow(m)
+
+ncol(m)
+
+```
+
+
+The recycling property of R (1)
+========================================================
+left: 10%
+class: small-code
+
+![](recycling.png)
+
+*** 
+
+```{r eval=TRUE, include=TRUE}
+
+x <- rnorm(5, mean = 10, sd = 1)
+
+print(x)
+
+x + 1000
+
+sqrt(x)
+
+```
+
+
+The recycling property of R (2)
+========================================================
+left: 10%
+class: small-code
+
+![](recycling.png)
+
+***
+
+- Joining two vectors into a dataframe
+
+```{r eval=TRUE, include=TRUE, echo=TRUE}
+x <- 1:5
+y <- 1:7
+
+cbind(x = x, y = y) # The shorter x vector will be 'recycled'
+
+```
+
+```
+Warning message:
+In cbind(x = x, y = y) :
+  number of rows of result is not a multiple of vector length (arg 1)
+```
+
+Sequences - the : operator
+========================================================
+class: small-code
+
+- Generating numeric sequences in R is simple and handy
+
+```{r eval=TRUE, include=TRUE, echo=TRUE}
+x <- 1:10
+print(x)
+```
+
+
+- Or using the function `seq()`
+
+```{r eval=TRUE, include=TRUE, echo=TRUE}
+y <- seq(from = 1, to = 5, by = 0.25)
+print(y)
+```
+
+
+Logical vectors
+========================================================
+class: small-code
+
+- Generated when a logical operation is performed by element
+
+```{r eval=TRUE, include=TRUE, echo=TRUE}
+x <- 1:10
+x > 5
+x == 10
+x < 3
+
+```
+
+
+Indexation of vectors
+========================================================
+class: small-code
+
+- The `[ ]` is used to subset vectors
+- Mainly, in three different ways:
+
+- By name
+```{r eval=TRUE, include=TRUE, echo=TRUE}
+temp <- c(14.5, 15.7, 17.2, 18.7)
+names(temp) <- c("Porto","Coimbra","Faro","Funchal")
+
+temp["Porto"]
+```
+
+
+Indexation of vectors
+========================================================
+class: small-code
+
+- By position
+```{r eval=TRUE, include=TRUE, echo=TRUE}
+temp[c(2,4)]
+```
+
+
+Indexation of vectors
+========================================================
+class: small-code
+
+- By logical condition
+```{r eval=TRUE, include=TRUE, echo=TRUE}
+temp[temp > 16]
+```
+
+
+Indexation of matrices
+========================================================
+class: small-code
+
+- The `[row, col]` is used to subset rows and/or columns of a matrix/data frame
+
+- By name
+```{r eval=TRUE, include=TRUE, echo=TRUE}
+data(iris)
+
+iris[,"Sepal.Length"] # Get column named "Sepal.Length"
+```
+
+
+Indexation of matrices
+========================================================
+class: small-code
+
+- By position
+```{r eval=TRUE, include=TRUE, echo=TRUE}
+iris[10:20, 2] # Columns 10 to 20 and column #2 - Sepal.Width
+```
+
+
+Indexation of matrices
+========================================================
+class: small-code
+
+- By logical condition
+```{r eval=TRUE, include=TRUE, echo=TRUE}
+iris[iris[,"Sepal.Length"] >= 7.5, ] # Select all observation with a Sepal.Length >= 0.75
+```
+
+
+
