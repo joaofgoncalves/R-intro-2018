@@ -1,0 +1,555 @@
+---
+title: 'R-intro - Session 2 exercise solutions'
+author: "João Gonçalves"
+date: "19 de Julho de 2018"
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 4
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+# Missing data in R (NA values)
+
+---------------------------------------------------------------------------------------------------------
+
+### Exercise 1
+
+1a)
+
+```{r}
+
+avg_temp <- c(10.5, NA, 12.3, 14.4, 15.6, 17.7, NA, 20.4, 20.3, 17.1, 13.3, 10.5)
+
+# Calculate the sum of the logical vector to count the number of NA's
+sum(is.na(avg_temp))
+
+```
+
+1b)
+
+```{r}
+
+# When NA values exist in a vector to calculate the mean or the std-dev the option 
+# na.rm must be set to TRUE
+
+mean(avg_temp, na.rm= TRUE)
+
+sd(avg_temp, na.rm= TRUE)
+
+```
+
+1c)
+
+```{r}
+
+# Don't forget to turn the option na.rm equal to TRUE to calculate the median
+avg_temp[is.na(avg_temp)] <- median(avg_temp, na.rm = TRUE)
+
+print(avg_temp)
+```
+
+1d)
+
+```{r}
+
+# Redefine the avg-temp again with NA values
+avg_temp <- c(10.5, NA, 12.3, 14.4, 15.6, 17.7, NA, 20.4, 20.3, 17.1, 13.3, 10.5)
+
+
+# Start by creating a vector for all vector indices
+ind <- (1:length(avg_temp))
+
+# Use vector ind to get the indices which are NA
+ind_NA <- ind[is.na(avg_temp)]
+
+# This is equal to using the which() function
+ind_NA <- which(is.na(avg_temp))
+
+# Replace values using vector positions
+avg_temp[2] <- mean(avg_temp[c(1,3)])
+
+avg_temp[7] <- mean(avg_temp[c(6,8)])
+
+
+# More general solution using the ind_NA vector with NA indices
+# Replace the first NA
+avg_temp[ind_NA[1]] <- mean(avg_temp[c(ind_NA[1] - 1, ind_NA[1] + 1)])
+
+# And the second NA
+avg_temp[ind_NA[2]] <- mean(avg_temp[c(ind_NA[2] - 1, ind_NA[2] + 1)])
+
+print(avg_temp)
+
+```
+
+
+
+# Dataframes in R
+
+---------------------------------------------------------------------------------------------------------
+
+
+### Quick exercise 1
+
+QE1)
+
+```{r}
+
+precip <- data.frame(
+  
+  cities = c("Mobile", "Juneau", "Phoenix", "Little Rock", "Los Angeles", 
+             "Sacramento", "San Francisco", "Denver", "Hartford", "Wilmington"),
+  
+  precipitation = c( 67.0, 54.7, 7.0, 48.5, 14.0, 17.2, 20.7, 13.0, 43.4, 40.2), 
+  
+  stringsAsFactors = FALSE
+)
+
+print(precip)
+
+precip$cities
+
+class(precip$cities)
+
+```
+
+
+# Exploratory data analysis - scatterplots and correlations
+
+---------------------------------------------------------------------------------------------------------
+
+
+### Exercise 2
+
+2.
+
+2a)
+
+```{r}
+
+# Number of rows with missing values
+sum(!complete.cases(airquality))
+
+# Clean dataframe using complete.cases() function
+aq <- airquality[complete.cases(airquality), ]
+
+# This is equal to using the na.omit() function to suppress rows with NA's
+aq <- na.omit(airquality)
+
+# Check which rows (by position) were omitted when function na.omit was used
+attr(aq,"na.action")
+
+```
+
+2b)
+
+```{r}
+
+summary(aq)
+
+```
+
+2c)
+
+```{r}
+
+# Use plot and specifically declare the x and y vector
+plot(x = aq$Wind, y = aq$Ozone)
+
+# Or you can use the formula interface to get a similar effect
+plot(Ozone ~ Wind, data = aq)
+
+# EXTRA: add a regression line to the plot based on the abline() function
+# Notice that a linear model (lm) is used as an input in abline
+abline(lm(Ozone ~ Wind, data = aq), col="red", lwd=2)
+
+# The correct option is...
+print("iv")
+```
+
+2d)
+
+```{r}
+
+plot(aq)
+
+# By visual inspection it seems that Temp (temperature), Wind (wind speed) and 
+# Solar.R (solar radiation) are more clearly correlated with Ozone concentration
+
+```
+
+
+2e)
+
+```{r}
+
+# (i)
+cor.test(aq$Ozone, aq$Solar.R, method="spearman")
+## Rho = 0.3481865 p < 0.001 
+
+# (ii)
+cor.test(aq$Ozone, aq$Wind, method="spearman")
+## Rho = -0.6051364 p < 0.001 
+
+# (iii)
+cor.test(aq$Ozone, aq$Temp, method="spearman")
+## Rho = 0.7729319 p < 0.001 
+
+```
+
+
+## Dataframe indexation with [ , ]
+
+ 
+### Exercise 3
+
+3. 
+
+3a)
+
+```{r eval=FALSE}
+
+aq[,-c(3:ncol(aq))]
+
+```
+
+3b)
+
+```{r eval=FALSE}
+
+aq[,c("Day","Month")]
+
+```
+
+3c)
+
+```{r}
+
+aq[1:3, ]
+
+```
+
+3d)
+
+```{r}
+
+nr <- nrow(aq)
+aq[(nr-10):nr, ]
+
+# Or more simply
+tail(aq, n = 10)
+
+```
+
+3e)
+
+```{r}
+
+aq[aq$Ozone > mean(aq$Ozone), ]
+
+```
+
+3f)
+
+```{r}
+
+aq[aq$Ozone < quantile(aq$Ozone, probs=0.1), ]
+
+```
+
+
+
+## Slicing with `subset()`
+
+
+### Quick exercise 2
+
+QE2)
+
+```{r}
+
+# Combine each condition using the & (AND) operator
+
+subset(aq, 
+       Ozone > 80 & 
+       Temp > 90 & 
+       Wind < 5)
+
+```
+
+
+
+# Factor variables
+
+---------------------------------------------------------------------------------------------------------
+
+
+
+### Exercise 4
+
+4.
+
+4a)
+
+```{r}
+
+# Use the line below to call the data
+data(iris)
+head(iris) # This is used to make a first check of the data
+
+# Check object class
+class(iris$Species)
+
+# Check if it is a factor variable
+is.factor(iris$Species)
+
+```
+
+4b)
+
+```{r}
+
+levels(iris$Species)
+
+```
+
+4c)
+
+```{r}
+
+table(iris$Species)
+
+```
+
+4d)
+
+```{r}
+
+# The function by() can be used for calculating a function for each level in INDICES
+by(iris$Petal.Length, INDICES = iris$Species, FUN = mean)
+
+# Or using indexation the mean can be calculated this way for each species
+mean(iris$Petal.Length[iris$Species == "setosa"])
+mean(iris$Petal.Length[iris$Species == "versicolor"])
+mean(iris$Petal.Length[iris$Species == "virginica"])
+```
+
+4e)
+
+```{r}
+
+# The function by() can be used for calculating a function for each level in INDICES
+by(iris$Petal.Length, INDICES = iris$Species, FUN = sd)
+
+# Or using indexation the std-dev can be calculated this way for each species
+sd(iris$Petal.Length[iris$Species == "setosa"])
+sd(iris$Petal.Length[iris$Species == "versicolor"])
+sd(iris$Petal.Length[iris$Species == "virginica"])
+
+```
+
+
+# Analyzing distributions
+
+---------------------------------------------------------------------------------------------------------
+
+
+### Exercise 5
+
+5.
+
+5a)
+
+```{r}
+
+# This command will allow to make a 2 x 2 plot i.e. with the 4 boxplots 
+par(mfrow=c(2,2))
+
+
+# Now let's make the boxplots
+# In boxplot it's possible to modify the title (main), 
+# the y-axis label (ylab) and x-axis label (xlab)
+
+boxplot(Sepal.Length ~ Species, data = iris, main = "Sepal length by Iris species", 
+        ylab = "Sepal length (cm)", xlab = "Species")
+
+boxplot(Sepal.Width ~ Species, data = iris, main = "Sepal width by Iris species", 
+        ylab = "Sepal width (cm)", xlab = "Species")
+
+boxplot(Petal.Length ~ Species, data = iris, main = "Petal length by Iris species", 
+        ylab = "Petal length (cm)", xlab = "Species")
+
+boxplot(Petal.Width ~ Species, data = iris, main = "Petal width by Iris species", 
+        ylab = "Petal width (cm)", xlab = "Species")
+
+```
+
+
+5b)
+
+i) Overall, petal dimensions seems to provide better differentiation between species with lower overlap between boxes/distributions.
+
+ii) Both petal length and width provide very good differentiation.
+
+iii) Sepal width seems to perform worst due to the higher overlap between boxes/distributions.
+
+
+
+## Hypothesis testing
+
+
+### Exercise 6
+
+
+6.
+
+6a)
+
+```{r}
+
+boxplot(weight ~ group, data = PlantGrowth)
+
+```
+
+6b)
+
+```{r}
+
+# Make a variable with weight measurements for the control group
+weight_control <- PlantGrowth$weight[PlantGrowth$group == 'ctrl']
+
+# Make a variable with weight measurements for the treatment-1 group
+weight_trt1 <- PlantGrowth$weight[PlantGrowth$group == 'trt1']
+
+# Now the t.test
+t.test(x = weight_control, y = weight_trt1)
+
+```
+
+According to the t-Test there is not sufficient evidence to reject the null-hypothesis, H0: Avg(control) = Avg(trt1), given that the p-value > 0.05
+
+6c)
+
+```{r}
+
+# Make a variable with weight measurements for the control group
+weight_control <- PlantGrowth$weight[PlantGrowth$group == 'ctrl']
+
+# Make a variable with weight measurements for the treatment-2 group
+weight_trt2 <- PlantGrowth$weight[PlantGrowth$group == 'trt2']
+
+# Now the t.test
+t.test(x = weight_control, y = weight_trt2)
+
+```
+
+According to the t-Test there is sufficient evidence to reject the null-hypothesis, H0: Avg(control) = Avg(trt2), given that the p-value < 0.05
+
+
+
+## Analysis of variance (one-way)
+
+
+
+### Exercise 7
+
+7.
+
+7a) 
+
+```{r}
+
+aov_iris <- aov(Sepal.Width ~ Species, data = iris)
+
+summary(aov_iris)
+
+```
+
+According to the ANOVA test there is sufficient evidence to reject the null-hypothesis, H0: Avg(setosa) = Avg(versicolor) = Avg(virginica), given that the p-value < 0.05
+
+7b)
+
+```{r}
+
+aov_iris <- aov(Petal.Width ~ Species, data = iris)
+
+summary(aov_iris)
+
+```
+
+According to the ANOVA test there is sufficient evidence to reject the null-hypothesis, H0: Avg(setosa) = Avg(versicolor) = Avg(virginica), given that the p-value < 0.05
+
+
+
+### Exercise 8
+
+8.
+
+8a)
+
+```{r}
+
+# Read the csv data file 
+# NOTE: depending on the working directory this path may not work and in that case you have to adjust it
+diet <- read.csv("../Session-02/diet.csv")
+
+```
+
+8b)
+
+```{r}
+
+# Use na.omit() to quickly exclude rows with NA values 
+diet <- na.omit(diet)
+
+```
+
+8c)
+
+```{r}
+
+# To add a new column to the dataset we can use either the function data.frame() or cbind()
+diet <- data.frame(diet, Treatment = factor(diet$Diet, levels = c(1,2,3), 
+                                            labels = c("Trt-A", "Trt-B", "Trt-C")))
+
+# Solution with cbind()
+# diet <- cbind(diet, Treatment = factor(diet$Diet, levels = c(1,2,3), labels = c("Trt-A", "Trt-B", "Trt-C")))
+
+```
+
+8d)
+
+```{r}
+
+diet <- data.frame(diet, Weight.Loss = diet$pre.weight - diet$weight6weeks)
+
+#print(diet)
+
+```
+
+8e)
+
+```{r}
+
+aov_diet <- aov(Weight.Loss ~ Treatment, data = diet)
+
+summary(aov_diet)
+
+```
+
+According to the ANOVA test there is sufficient evidence to reject the null-hypothesis, H0: Avg(Trt-A) = Avg(Trt-B) = Avg(Trt-C), given that the p-value < 0.05
+
+
+
+
+
+
+
+

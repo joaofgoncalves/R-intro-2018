@@ -3,11 +3,11 @@ title: 'R-intro - Session 2'
 author: "João Gonçalves"
 date: "17 de Julho de 2018"
 output:
-  html_document: default
   pdf_document:
     toc: true
     toc_depth: 4
     fig_height: 0.5
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -29,7 +29,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
  - Factor variables
  
- - Plotting distributions with boxplots
+ - Plotting distributions: histograms and boxplots
 
  - Hypothesis testing (t-Test)
  
@@ -99,20 +99,49 @@ complete.cases(x)
 a) Insert the data into a vector named `avg_temp`. Calculate how many `NA` values exist in this vector
 ```{r}
 
+avg_temp <- c(10.5, NA, 12.3, 14.4, 15.6, 17.7, NA, 20.4, 20.3, 17.1, 13.3, 10.5)
+
 ```
 
 b) Calculate the mean and the standard-deviation (hint: check `na.rm` option)
 ```{r}
+
+mean(avg_temp, na.rm= TRUE)
+
+sd(avg_temp, na.rm= TRUE)
 
 ```
 
 c) Replace the `NA` values by the overall median (hint: `is.na`)
 ```{r}
 
+
+avg_temp[is.na(avg_temp)] <- median(avg_temp, na.rm = TRUE)
+
+avg_temp
 ```
 
 d) Replace each `NA` value by the average of the two closest months (hint: use indexation)
 ```{r}
+
+avg_temp <- c(10.5, NA, 12.3, 14.4, 15.6, 17.7, NA, 20.4, 20.3, 17.1, 13.3, 10.5)
+
+ind <- (1:length(avg_temp))
+
+ind_NA <- ind[is.na(avg_temp)]
+
+# Using positions
+
+avg_temp[2] <- mean(avg_temp[c(1,3)])
+
+avg_temp[7] <- mean(avg_temp[c(6,8)])
+
+
+# More general solution
+
+avg_temp[ind_NA[1]] <- mean(avg_temp[c(ind_NA[1] - 1, ind_NA[1] + 1)])
+
+avg_temp[ind_NA[2]] <- mean(avg_temp[c(ind_NA[2] - 1, ind_NA[2] + 1)])
 
 ```
 
@@ -162,6 +191,17 @@ QE1) Create a dataframe named `precip` with the two following vectors:
 
 ```{r}
 
+precip <- data.frame(
+  cities = c("Mobile", "Juneau", "Phoenix", "Little Rock", "Los Angeles", "Sacramento", "San Francisco", "Denver", "Hartford", "Wilmington"),
+  
+  precipitation = c( 67.0, 54.7, 7.0, 48.5, 14.0, 17.2, 20.7, 13.0, 43.4, 40.2), stringsAsFactors = FALSE)
+
+print(precip)
+
+precip$cities
+
+class(precip$cities)
+
 ```
 
 
@@ -192,12 +232,42 @@ In the next exercise we will approach this by analyzing a sample dataset and com
 2. In this exercise we will use an R "internal" dataset named `airquality` (containing daily air quality measurements for New York, from May to September 1973) to learn how to manipulate dataframes in a simple analysis.
 
 a) Check if the dataset has missing values (hint: use `complete.cases`). If yes, create a new dataset named `aq` by removing all rows with `NA`'s
+
 ```{r}
+
+# Check for missing data (as a logical vector)
+complete.cases(airquality)
+
+sum(complete.cases(airquality))
+
+# Number of rows with missing values
+sum(!complete.cases(airquality))
+
+# Number of NA's by each column
+apply(apply(airquality, 2, is.na), 2, sum)
+# Or
+
+apply(airquality, 2, function(x,...) sum(is.na(x,...),...))
+
+
+# Cleaned dataframe without NA's
+aq <- airquality[complete.cases(airquality), ]
+
+# Rows with NA's
+aq_NAs <- airquality[!complete.cases(airquality), ]
+
+# Omit/suppress rows with NA
+aq <- na.omit(airquality)
+
+# Check which rows (by position) were omitted when function na.omit was used
+attr(aq,"na.action")
 
 ```
 
 b) Using the function `summary` indicate the average values for the `Ozone` concentration and `Wind` speed
 ```{r}
+
+summary(sq)
 
 ```
 
@@ -212,11 +282,21 @@ iii) Negative and linear correlation;
 iv) Negative and non-linear correlation;
 
 ```{r}
-print("")
+
+#plot(x = aq$Wind, y = aq$Ozone)
+
+plot(Ozone ~ Wind, data = aq)
+
+abline(lm(Ozone ~ Wind, data = aq), col="red", lwd=2)
+
+# The correct option is...
+print("iv")
 ```
 
 d) Use the function `plot` on the `aq` data frame. Overall, which variables seem more clearly correlated/associated to `Ozone` concentration?
 ```{r}
+
+plot(aq)
 
 ```
 
@@ -226,10 +306,17 @@ d) Use the function `cor.test` to analyze the Spearman non-parametric correlatio
 ```{r}
 
 # (i)
+cor.test(aq$Ozone, aq$Solar.R, method="spearman")
+## Rho = 0.3481865 p < 0.001 
+
 
 # (ii)
+cor.test(aq$Ozone, aq$Wind, method="spearman")
+## Rho = -0.6051364 p < 0.001 
 
 # (iii)
+cor.test(aq$Ozone, aq$Temp, method="spearman")
+## Rho = 0.7729319 p < 0.001 
 
 ```
 
@@ -263,25 +350,35 @@ Using the previously created `aq` dataset (i.e., `airquality` without `NA`'s) an
 a) Subset the dataframe by excluding the columns from the third to the last position (hint: see `?ncol`)
 ```{r}
 
+aq[,-c(3:ncol(aq))]
+
 ```
 
 b) Select columns named `Day` and `Month` (in this order)
 ```{r}
+
+aq[,c("Day","Month")]
 
 ```
 
 c) Select rows 1,2, and 3
 ```{r}
 
+aq[1:3, ]
+
 ```
 
 d) select the last ten rows (hint: `nrow` or `tail`)
 ```{r}
 
+nr <- nrow(aq)
+aq[(nr-10):nr, ]
+
 ```
 
 e) Select the rows with above average `Ozone` concentration
 ```{r}
+
 
 ```
 
@@ -297,11 +394,11 @@ f) Select the rows below the 10-percentile value of `Ozone` concentration (hint:
 
 The `subset()` function is one of the most useful data management functions in R. It allows you to slice a dataset just like you would with brackets, but the code is much easier to write. The table below shows the main arguments of `subset()` function:
 
-| Argument | Description                                  | 
-|:---------|:---------------------------------------------|
-| `x`      | A dataframe you want to subset               | 
-| `subset` | A logical vector indicating the rows to keep | 
-| `select` | The columns you want to keep                 | 
+| Argument    | Description                                  | 
+|:------------|:---------------------------------------------|
+|     `x`     | A dataframe you want to subset               | 
+|     `subset`| A logical vector indicating the rows to keep | 
+|     `select`| The columns you want to keep                 | 
 
 Let's use the `subset()` function to create a new, subsetted dataset from the `ToothGrowth` (an internal dataset containing data for guinea pigs) for the three following conditions:
 
@@ -456,9 +553,9 @@ Boxplots are a graphical representation of the five number summary, showing the 
 Boxplots convey the shape of the data distribution, the presence of extreme values, and the ability to compare with other variables using the same scale, providing an excellent tool for screening data, determining thresholds for variables and developing working hypotheses.
 
 
-### Exercise 5
+### Exercise 4
 
-5. In this exercise we will continue our exploration of the `iris` dataset and analyze differences in the distribution of different leaf structures between species.
+4. In this exercise we will continue our exploration of the `iris` dataset and analyze differences in the distribution of different leaf structures between species.
 
 
 a) Using a formula in the `boxplot` function (i.e., `variable ~ group`) make a plot for each one of the variables by species:
@@ -518,11 +615,12 @@ t.test(women_weight, men_weight)
 Given that our p-value is below 0.05, we can reject the null hypothesis of equal averages.
 
 
-### Exercise 6
+### Exercise 5
 
-6. In this exercise we will use the `PlantGrowth` dataset which contains experimental results comparing yields (dried weight of plants) obtained under a control and two different treatment conditions. `PlantGrowth` is a data frame with 30 cases/observations and 2 variables: 
-- [, 1]	 _weight_ (numeric)
-- [, 2]	 _group_ (factor)
+5. Using the `PlantGrowth` dataset, containing results of an experiment used to compare yields (dried weight of plants) obtained under a control and two different treatment conditions. `PlantGrowth` contains a data frame of 30 cases on 2 variables.
+
+[, 1]	 _weight_ (numeric)
+[, 2]	 _group_ (factor)
 
 The levels of group are 'ctrl' (control), 'trt1', and 'trt2' (treatments 1 and 2).
 
@@ -537,7 +635,7 @@ b) Use a t-test to check if the is a difference between the control group and tr
 ```
 
 
-c) Use a t-test to check if the is a difference between the control group and treatment 2
+c) Use a t-test to check if the is a difference between the control group and treatment 1
 ```{r}
 
 ```
@@ -558,9 +656,9 @@ $$H0: \mu_1 = \mu_2 = ... = \mu_k$$
 
 The alternative hypothesis for ANOVA states that any one of the population mean equalities does not hold:
 
-$$H1: \mu_i \neq \mu_j, \text{ for some } i \neq j$$
+$$H1: \mu_i = \mu_j, \text{ for some } i \neq j$$
 
-It is important to note that a rejection of the null hypothesis (H0) __does not tell you which of the population means differ__. It only tells you that there is some population whose mean is different from at least one other population (it could be that all of the means are different from one another!)
+It is important to note that a rejection of the null hypothesis (H0) does not tell you which of the population means differ. It only tells you that there is some population whose mean is different from at least one other population (it could be that all of the means are different from one another!)
 
 The basic idea is that if the variability between the groups is greater than the variability within the groups, then we have evidence that the differences between the groups is not simply reflecting random noise.
 
@@ -568,11 +666,11 @@ Quantifying the within and between group variability is typically done by calcul
 
 This means that we are comparing the:
 
-- _Between sum of squares (BSS)_: the squared distances from the group means (average over all individuals separately for each hospital) to the global mean (average over all individuals),
+- _between sum of squares (BSS)_: the squared distances from the group means (average over all individuals separately for each hospital) to the global mean (average over all individuals),
 
 _vs._ the
 
-- _Within sum of squares (WSS)_: the squared distances from each individual to their group mean (average over all individuals within the same hospital).
+- _within sum of squares (WSS)_: the squared distances from each individual to their group mean (average over all individuals within the same hospital).
 
 
 ![](../Session-02/images/Fstat.png)
@@ -596,10 +694,9 @@ summary(res.aov)
 As the p-value is less than the significance level of 0.05, we can conclude that there are significant differences between the groups highlighted with "*" in the model summary above.
 
 
+### Exercise 6
 
-### Exercise 7
-
-7. Using the `iris` dataset answer to the following questions:
+6. Using the `iris` dataset answer to the following questions:
 
 a) Using the ANOVA function `aov` check if there are significant differences in terms of _sepal width_ across iris species
 ```{r}
@@ -612,11 +709,11 @@ b) Using the ANOVA function `aov` check if there are significant differences in 
 ```
 
 
-### Exercise 8
+### Exercise 7
 
-8. In this exercise we will use a sample dataset (in the `"diet.csv"` file; see folder Session-02) with information on 76 people who undertook one of three diets (referred to as diet A, B and C). There is also background information such as age, gender, and height. The aim of the study was to see which diet was best for losing weight.
+7. In this exercise we will use a sample dataset (in the `"diet.csv"` file; see folder Session-02) with information on 76 people who undertook one of three diets (referred to as diet A, B and C). There is background information such as age, gender, and height. The aim of the study was to see which diet was best for losing weight.
 
-a) Read the data file `diet.csv` using function `read.csv()` (hint: use the help on `?read.csv` in case of doubt)
+a) Read the data file using function `read.csv()` (hint: use the help on `?read.csv` in case of doubt)
 ```{r}
 
 ```
