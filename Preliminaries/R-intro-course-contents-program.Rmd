@@ -57,21 +57,19 @@ Don't worry we will start slowly! :-) As such, you don't really need any prior k
 
  - Time for recap session #1
 
- - Factors
+ - Missing data: `NA` values
  
- - Lists
+ - Data frames (as an extension of matrices) 
+ 
+ - Exploratory Data Analysis: scatter-plots and correlation analyses
 
- - Functions 
+ - Factor variables
  
- - If conditionals 
- 
- - For loops 
- 
- - Combining all together
+ - Plotting distributions with boxplots
 
- - Working with dataframes
+ - Hypothesis testing (t-Test)
  
- - Data import/export in different formats
+ - Analysis of variance (one-way ANOVA)
  
 
 ## Session 3

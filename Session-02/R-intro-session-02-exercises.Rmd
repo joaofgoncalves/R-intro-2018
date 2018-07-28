@@ -29,7 +29,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
  - Factor variables
  
- - Plotting distributions with boxplots
+ - Plotting and comparing distributions with boxplots
 
  - Hypothesis testing (t-Test)
  
@@ -548,7 +548,7 @@ c) Use a t-test to check if the is a difference between the control group and tr
 
 _ANalysis Of VAriance_ (ANOVA), is a widely used method designed for comparing differences in means among three or more groups.
 
-For example, we might be interested in comparing the average waiting times in the emergency rooms of three different hospitals. Or perhaps we have conducted a experimental trial comparing the effectiveness of five different treatments to avoid a certain pathogen.
+For example, we might be interested in comparing the average yield or plant weight for three different types of fertilizers. Or perhaps we have conducted a experimental trial comparing the effectiveness of five different treatments to avoid a certain pathogen.
 
 The key is that each individual falls into a group described by a (categorical) grouping variable (e.g. treatment type and or intensity) and for each individual we measure some continuous outcome (e.g., plant status).
 
@@ -568,11 +568,11 @@ Quantifying the within and between group variability is typically done by calcul
 
 This means that we are comparing the:
 
-- _Between sum of squares (BSS)_: the squared distances from the group means (average over all individuals separately for each hospital) to the global mean (average over all individuals),
+- _Between sum of squares (BSS)_: the squared distances from the group means (average over all individuals separately for each group) to the global mean (average over all individuals),
 
 _vs._ the
 
-- _Within sum of squares (WSS)_: the squared distances from each individual to their group mean (average over all individuals within the same hospital).
+- _Within sum of squares (WSS)_: the squared distances from each individual to their group mean (average over all individuals within the same group).
 
 
 ![](../Session-02/images/Fstat.png)
@@ -583,7 +583,11 @@ _ANOVA assumptions_ are the following:
 - _Assumption 2_: The data are normally distributed;
 - _Assumption 3_: Each group has the same variance.
 
-Using the previous `PlantGrowth` dataset we will check if there is a different between the group means using the `aov` function:
+If the data generally satisfies these parametric assumptions (which can be checked individually), then we can show that this test statistic follows an _F_-distribution and we can do a straightforward parametric hypothesis test as:
+
+$$\text{p-value}=P \left( F_{k-1,N-k} \geq \frac{BSS/(K-1)}{WSS/(N-K)} \right)$$
+
+A quick-example! Using the previous `PlantGrowth` dataset we will check if there is a different between the group means using the `aov` function:
 
 ```{r}
 
