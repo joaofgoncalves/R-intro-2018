@@ -3,17 +3,16 @@ title: 'R-intro - Session 3'
 author: "João Gonçalves"
 date: "27 de Julho de 2018"
 output:
-  html_document: default
   pdf_document:
     toc: true
     toc_depth: 4
     fig_height: 0.5
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
 
 
 
@@ -23,9 +22,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
  - Lists
 
- - Functions 
+ - User-defined/custom functions 
  
- - If conditionals 
+ - If conditionals
  
  - For loops 
  
@@ -39,7 +38,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 A list is a special object in R that can store virtually _anything_ which makes it pretty useful in different situations. You can have a list that contains several vectors, matrices, or dataframes of any size.
 
-Lists are also useful to represent hierarchical or nested data structures so it can get really complex! For example, you can have lists inside lists - go inception!
+Lists are also useful to represent hierarchical or nested data structures! For example, you can have lists inside lists - go inception! :-)
 
 To start a list object you use the function `list()`. Let's check the example below:
 
@@ -48,13 +47,9 @@ To start a list object you use the function `list()`. Let's check the example be
 # A list with three elements named x, y and z:
 
 myList <- list(
-  
   x = rnorm(10), # 10 randomly generated numbers with normal(0,1) distribution
-  
-  y = rnorm(5),  # 5 randomly generated numbers with normal(0,1) distribution
-  
+  y = rnorm(5, 20, 1),  # 5 randomly generated numbers with normal(20,1) distribution
   z = matrix(1:9, nrow = 3, ncol = 3) # A 3x3 matrix
-  
 )
 
 print(myList)
@@ -62,13 +57,13 @@ print(myList)
 ```
 
 
-To index an element in a list, use double brackets `[[]]` or `$` if the list has names. For example, to get the first element of a list named `myList`, you would use `myList[[1]]`. Let's see some more example using the previously created list object:
+To index an element in a list use double brackets `[[]]` or `$` if the list has names. For example, to get the first element of a list named `myList`, you would use `myList[[1]]`. Let's see some examples using the previously created list object:
 
 ```{r}
 
 # Access the first element of the list 
 myList[[1]]
-# Access the thrid element of the list 
+# Access the third element of the list 
 myList[[3]]
 
 # Access the list by name using [[]] or $
@@ -86,17 +81,16 @@ You can combine indices to get the elements out a list - like this:
 
 ```{r}
 
-# Extract the element named x from the list and then get extract from third to the fifth element 
+# Extract the element named x from the list and then get the third to the fifth elements 
 myList$x[3:5]
 
-# or
-
+# or, the same as
 myList[["x"]][3:5]
 
 ```
 
 
-Adding new elements to a previously created list is fairly easy:
+Adding new elements to a previously created list is also fairly easy:
 
 ```{r}
 
@@ -110,7 +104,6 @@ print(myList)
 
 
 # By name (in this case new data will be appended at the end of the list)
-
 myList[["Cities"]] <- c("New York", "Madrid", "Paris")
 
 # this is equal to the $ operator
@@ -119,7 +112,6 @@ myList$Cities <- c("New York", "Madrid", "Paris")
 print(myList)
 
 ```
-
 
 
 ### Exercise 1
@@ -150,7 +142,7 @@ c) Using list and vector indexation access to the third element of `mult`
 
 ### Exercise 2
 
-Take a look at the (nested) list object below and then run the code chunk. Solve the exercises below.
+Take a look at the (nested) list object below and then run the code chunk to set it in R. Solve the exercises below using this list.
 
 ```{r}
 
@@ -177,14 +169,14 @@ a) Using indexation by name, extract the `x` element from `nestList`
 ```
 
 
-a) Extract the third element of `a1` and the second to fifth elements of `b2`
+b) Extract the third element of `a1` and the second to fifth elements of `b2`
 
 ```{r}
 
 ```
 
 
-b) Calculate `a2` times `b1`
+c) Calculate `a2` times `b1`
 
 ```{r}
 
@@ -192,7 +184,7 @@ b) Calculate `a2` times `b1`
 
 
 
-Lists are very flexible and, in fact, many outputs from R functions are formatted as _'list-like'_ object (although some have specific classes). That is one of the reasons why learning to work with lists and know how to access their content is so important.
+Lists are very flexible and, in fact, many outputs from R functions are formatted as _'list-like'_ object (although often these have specific classes). This is one of the reasons why learning to work with lists and know how to access their content is so important.
 
 To check the structure of R objects you can use the function `str()`. Let's see one example based on hypothesis testing from the previous session:
 
@@ -204,13 +196,13 @@ iris_virg <- iris$Sepal.Length[iris$Species=="virginica"]
 
 iris_ttest <- t.test(iris_vers, iris_virg)
 
-class(iris_aov)
+class(iris_ttest)
 
-str(iris_aov)
+str(iris_ttest)
 
 ```
 
-Using `str` you can see that the result of applying a t-Test is an object of class `htest` which a sort of list with 9 elements (see `?t.test` for more details)
+Using `str` you can see that the result of applying a t-Test is an object of class `htest` which is a sort of list with 9 elements (see `?t.test` for more details)
 
 
 ### QUICK-EXERCISE 1
@@ -222,7 +214,7 @@ Using the internal dataset `airquality` (tested in session #2) calculate the Pea
 ```
 
 
-After performing the calculation, use function `str()` to inspect the `aq_cor` object and extract the correlation and the p-value.
+After performing the calculation, use function `str()` to inspect the `aq_cor` object and extract the correlation and the p-value using list indexation.
 
 ```{r}
 
@@ -250,14 +242,13 @@ In a nutshell a function has the main following components:
 
 # The basic structure of a function
 
-NAME <- function(ARGUMENTS) {
+NAME <- function(ARGUMENTS){
 
-  # ACTIONS
+  # ACTIONS ...
   
-  # MORE ACTIONS
+  # MORE ACTIONS ...
 
   return(OUTPUT)
-
 }
 
 ```
@@ -271,6 +262,7 @@ Let's check some examples:
 ```{r}
 
 count_NA <- function(x){
+  
   return(sum(is.na(x)))
 }
 
@@ -283,7 +275,7 @@ count_NA(airquality$Temp)
 
 2) Make a custom histogram plot
 
-```{r}
+```{r fig.height=5, fig.width=6.5}
 
 # Create a custom histogram function named myHistogram
 
@@ -309,7 +301,8 @@ myHistogram <- function(x, ...) {
 
 # Let's call our brand new function on some sample data
 #
-myHistogram(airquality$Temp, xlab="Temperature (degrees F)", main="Histogram of Temperature\n")
+myHistogram(airquality$Temp, xlab="Temperature (degrees F)", 
+            main="Histogram of Temperature\n")
 
 
 ```
@@ -328,23 +321,51 @@ ndvi(0.1, 0.4)
 ```
 
 
-
 ### Exercise 3
 
 
-a) Make a function called `Celsius2Kelvin` that converts temperature from Celsius to Fahrenheit (formula: T(K) = T(ºC) + 273.15). Test it with `a <- 20.5`.
+a) Make a function called `Celsius2Kelvin` that converts temperature from Celsius to Fahrenheit (formula: T(K) = T(°C) + 273.15). Test it with `a <- 20.5`.
 
-b) Make a function called `Celsius2Fahrenheit` that converts temperature from Celsius to Fahrenheit (formula: T(ºF) = T(ºC) × 9/5 + 32).Test it with `b <- 16.7`.
+```{r}
 
-c) Make a function named `recode2NA` to change values in an input vector to `NA` if those values are below 10 or above 100. Test it the following vector `c_ <- c(1, 5, 10, 15, 25, 78, 90, 34, 55, 120, 100, 105, 103, 12, 101)`
+```
 
-d) Write a function called `standardize.me` that takes a vector x as an argument, and returns a vector that standardizes the values of `x` (standardization means subtracting the mean and dividing by the standard deviation). Test it with with `d <- rnorm(100)`.
+b) Make a function called `Celsius2Fahrenheit` that converts temperature from Celsius to Fahrenheit (formula: T(°F) = T(°C) × 9/5 + 32). Test it with `b <- 16.7`.
+
+```{r}
+
+```
+
+c) Make a function named `recode2NA` to change values in an input vector to `NA` if those values are below 10 or above 100. Test it the following vector `v <- c(1, 5, 10, 15, 25, 78, 90, 34, 55, 120, 100, 105, 103, 12, 101)`
+
+```{r}
+
+```
+
+d) Write a function called `standardize.me` that takes a vector `x` as an argument, and returns a vector that standardizes the values of `x` (standardization means subtracting the mean and dividing by the standard deviation). Test it with with `d <- rnorm(100)`.
+
+```{r}
+
+```
 
 e) Create a function named `CoeffVar` that calculates the Coefficient of Variation (which equals the mean divided by the standard-deviation). Test it with with `e <- rnorm(100)`.
 
+```{r}
+
+```
+
 f) Create a function that multiplies the two greatest elements of a vector and divides them by two. Test this function with the following vector `f <- rnorm(1000, 100, 10)`
 
-g Make a "personalized" version of a histogram with three vertical lines corresponding to each one of the quartiles of the distribution (hint: check `abline`). Test this function with the following vector `g <- rnorm(1000, 10, 3)`
+```{r}
+
+```
+
+g) Make a "personalized" version of a histogram with three vertical lines corresponding to each one of the quartiles of the distribution (hint: check `abline`). Test this function with the following vector `g <- rnorm(1000, 10, 3)`
+
+```{r}
+
+```
+
 
 
 # If conditionals 
@@ -353,6 +374,8 @@ g Make a "personalized" version of a histogram with three vertical lines corresp
 
 
 __if statements__
+
+Briefly presented, if statements allow to control the flow of execution of a script.
 
 The conditional if statement is used to test an expression. If the test_expression is `TRUE`, the statement inside the curly brackets gets executed. If it is `FALSE`, nothing happens.
 
@@ -378,7 +401,7 @@ if(x > 0){
 
 ```
 
-(Obviously) the print message is issued because `x` is positive ;-)
+(Obviously) the print message is issued because `x` is in fact positive ;-)
 
 
 __if... else if... else statements__
@@ -401,7 +424,7 @@ Usually if... else statements are more useful within functions. Let's see one ex
 
 ```{r}
 
-temp_feel <- function(x){
+temp_feel <- function(temp){
   if (temp <= 0) {
     "freezing"
   } else if (temp <= 10) {
@@ -415,6 +438,8 @@ temp_feel <- function(x){
   }
 }
 
+temp_feel(22.5)
+
 ```
 
 
@@ -422,22 +447,40 @@ temp_feel <- function(x){
 
 a) Create a function that returns `TRUE` if the input argument `x` is positive and `FALSE` otherwise;
 
-b) Create a function that checks if the Spearman correlation between two vectors (`x` and `y`) is higher than |r| > 0.7 (absolute value) and returns `TRUE` if it verifies that condition. Use `cor.test()` to calculate the correlation;
+```{r}
+
+```
+
+b) Create a function that checks if the Spearman correlation between two vectors (`x` and `y`) is higher than |r| > 0.7 (absolute value) and returns `TRUE` if it verifies that condition. Use `cor.test()` to calculate the correlation (hint: use list indexation in the `cor.test()` function);
+
+```{r}
+
+```
 
 c) Also using `cor.test()` function create a functions that checks if the p-value is:
 
-- >= 0.1 return non-signif.  
-- < 0.1 returns -
+- >= 0.1 return n.s. (i.e., non-significant);  
+- < 0.1 returns -; 
 - < 0.05 returns *;
 - < 0.01 returns **;
 - < 0.001 returns ***;
+
+(hint: also use here list indexation)
+
+```{r}
+
+```
 
 
 # For loops 
 
 ---------------------------------------------------------------------------------------------------------
 
-The for loop is used to execute repetitive code statements for a particular number of times. The general syntax is provided below where i is the counter and as i assumes each sequential value defined (1 through 100 in this example) the code in the body will be performed for that ith value.
+A for loop is used to iterate through the elements of R objects.
+
+It is used to execute repetitive code statements for a particular number of times allowing to automate certain tasks. 
+
+The general syntax is provided below where `i` is the counter and as `i` assumes each sequential value defined the code in the body will be performed for that `i`-th value.
 
 ```{r eval=FALSE}
 
@@ -462,15 +505,19 @@ for (i in 2015:2018){
 ```
 
 
-# Combining it all together
-
----------------------------------------------------------------------------------------------------------
-
 ### Exercise 5
 
 a) Do a function that prints the mean and the standard-deviation for each column of an input matrix or dataframe. Use the `airquality` dataset to test it.
 
-b) Do a function that takes a __vector__ (named `x`) and a __matrix__ (named `y`) to calculate the correlation and prints the results __for each column__ in the matrix. Use function `cor.test` to calculate the correlation and `summary` to print the result. For testing use `airquality$Ozone` as `x` and all of the remaining columns as `y`.
+```{r}
+
+```
+
+b) Do a function that takes a __vector__ (named `x`) and a __matrix__ (named `y`) to calculate the correlation and prints the results __for each column__ in the matrix. Use function `cor.test` to calculate the Pearson correlation. If the correlation is higher than |rho| > 0.7 then print the result using `summary`. For testing the function, use `airquality$Ozone` as `x` and a matrix with all of the remaining columns from `airquality` as `y`.
+
+```{r}
+
+```
 
 
 
