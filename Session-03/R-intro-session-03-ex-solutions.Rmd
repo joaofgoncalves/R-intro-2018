@@ -1,0 +1,426 @@
+---
+title: 'R-intro - Session 3 exercise solutions'
+author: "João Gonçalves"
+date: "27 de Julho de 2018"
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 4
+    fig_height: 0.5
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+# List objects
+
+---------------------------------------------------------------------------------------------------------
+
+
+### Exercise 1
+
+1a.
+```{r}
+
+my_list <- list(a = 1:5,
+                b = matrix(1:20, nrow = 5, ncol = 4))
+```
+
+1b.
+```{r}
+
+# Extracting a from the list
+my_list$a
+
+# Extracting the first column of b
+my_list$b[,1]
+
+# Multiply the two vectors (element-by-element) and attribute
+# this to a new list element called "mult"
+my_list[["mult"]] <- my_list$a * my_list$b[,1]
+
+print(my_list$mult)
+```
+
+1c.
+```{r}
+
+# Using the dollar $ operator
+my_list$mult[3]
+
+# Equivalent to before but using the [[]] operator
+my_list[["mult"]][3]
+
+# Concatenation can be used to extract more than one element, for example:
+my_list[["mult"]][c(1,3,5)]
+```
+
+
+### Exercise 2
+
+2. 
+```{r}
+
+set.seed(123) # Used to make random numbers always the same
+
+# Now define the list that will be used for the exercise
+nestList <- list(
+  
+  x = list(
+    a1 = 1:10,
+    a2 = rnorm(10)
+  ),
+  
+  y = list(
+        b1 = 1:10,
+        b2 = rnorm(10)
+  )
+)
+```
+
+2a.
+```{r}
+
+# Using the $ operator
+nestList$x
+
+# The same as before but with the [[]] operator
+nestList[["x"]]
+```
+
+2b.
+```{r}
+
+# the third element of `a1`
+nestList$x$a1[3]
+# equivalent to:
+nestList[["x"]][["a1"]][3]
+
+# the second to fifth elements of `b2`
+nestList$y$b2[2:5]
+# equivalent to:
+nestList[["y"]][["b2"]][2:5]
+```
+
+2c.
+```{r}
+
+nestList$x$a2 * nestList$y$b1
+# the same as:
+nestList[["x"]][["a2"]] * nestList[["y"]][["b1"]]
+```
+
+
+
+### QUICK-EXERCISE 1
+
+QE-1)
+a)
+```{r}
+
+# Extract columns to atemporary vectors
+ozone <- airquality$Ozone
+temp <- airquality$Temp
+
+# Calculate correlation
+aq_cor <- cor.test(x = ozone, y = temp,method="pearson")
+
+# Equivalent to before but without specifically declaring 
+# the x and y in cor.test. This way we are defining function 
+# arguments by their positions
+aq_cor <- cor.test(ozone, temp)
+
+# Also equivalent but not using temp vectors, instead
+# using directly indexation to pull data
+aq_cor <- cor.test(airquality$Ozone, airquality$Temp)
+```
+
+QE-1)
+b)
+```{r}
+
+# Get object structure
+str(aq_cor)
+
+# Get correlation value
+aq_cor$estimate
+
+# Get correlation p-value
+aq_cor$p.value
+```
+
+
+# User-defined functions
+
+---------------------------------------------------------------------------------------------------------
+
+### Exercise 3
+
+3a.
+```{r}
+
+Celsius2Kelvin <- function(tempCelsius){
+  
+  tempKelvin <- tempCelsius + 273.15
+  
+  return(tempKelvin)
+}
+
+a <- 20.5
+Celsius2Kelvin(a)
+```
+
+3b.
+```{r}
+
+Celsius2Fahrenheit <- function(tempCelsius){
+
+  return(tempCelsius * 9/5 + 32)
+}
+
+b <- 16.7
+Celsius2Fahrenheit(b)
+```
+
+3c.
+```{r}
+
+recode2NA <- function(x){
+  # Modify x values to NA
+  x[x < 10 | x > 100] <- NA
+  # return the modified x
+  return(x)
+}
+
+v <- c(1, 5, 10, 15, 25, 78, 90, 34, 55, 120, 100, 105, 103, 12, 101)
+recode2NA(v)
+```
+
+3d.
+```{r}
+
+standardize.me <- function(x){
+  # A temp variable with the standardized x
+  x.std <- (x - mean(x)) / sd(x)
+  return(x.std)
+}
+
+d <- rnorm(100, 100, 5)
+standardize.me(d)
+```
+
+3e.
+```{r}
+
+CoeffVar <- function(x){
+  
+  cv <- mean(x) / sd(x)
+  return(cv)
+}
+
+e <- rnorm(100)
+CoeffVar(e)
+```
+
+3f.
+```{r}
+
+mult2 <- function(x){
+  
+  x.sort <- sort(x, decreasing = TRUE)
+  highest2 <- x.sort[1:2]
+  
+  return((highest2[1] * highest2[2]) / 2)
+}
+
+f <- rnorm(1000, 100, 10)
+mult2(f)
+
+```
+
+3g.
+```{r fig.height=5, fig.width=6.5}
+
+myHist <- function(x, ...){
+  
+  # Calculate the 25%, 50% and the 50% quantiles
+  qts <- quantile(x, probs = c(0.25, 0.50, 0.75))
+  # Make the histogram with the input x vector
+  hist(x, ...)
+  # Add the vertical lines using abline function
+  abline(v = qts, lwd=1, lty=2, col="red")
+}
+
+
+g <- rnorm(1000, 10, 3)
+
+myHist(g, main="Distribution of values", 
+       col = "light grey", 
+       border = "white")
+
+
+# To save the result to a file use (for example) png()
+# folowed by the function that makes the plot
+# then close the file by using dev.off()
+png(filename = "myHist.png", width = 1200, height = 900, res = 300)
+myHist(g, main="Distribution of values", 
+       col = "light grey", 
+       border = "white")
+dev.off()
+```
+
+
+
+# If conditionals 
+
+---------------------------------------------------------------------------------------------------------
+
+
+### Exercise 4
+
+4a.
+```{r}
+
+isPositive <- function(x){
+  # The test condition of an if goes inside the ( ) what happens
+  # if the condition is TRUE goes within the { }
+  if(x > 0){
+    TRUE
+  }else{
+    FALSE
+  }
+}
+
+isPositive(10)
+isPositive(-10)
+```
+
+4b.
+```{r}
+
+checkCorrValue <- function(x, y){
+  
+  absCorrValue <- abs(cor.test(x, y)$estimate)
+  
+  if(absCorrValue > 0.6){
+    return(TRUE)
+  }else{
+    return(FALSE)
+  }
+}
+
+# Test with vectors Ozone and Temp from airquality dataset
+checkCorrValue(x = airquality$Ozone, y = airquality$Temp)
+
+# Two additional tests
+checkCorrValue(x = rnorm(10), y = rnorm(10))
+checkCorrValue(x = 1:10, y = 1:10)
+```
+
+4c. 
+```{r}
+
+significanceSymbol <- function(x, y, ...){
+  
+  corTest <- cor.test(x,y,...)
+  pvalue <- corTest$p.value
+  
+  if(pvalue >= 0.1){
+    print("n.s.")
+  }else if(pvalue < 0.001){
+    print("***")
+  }else if(pvalue < 0.01){
+    print("**")
+  }else if(pvalue < 0.05){
+    print("*")
+  }else if(pvalue < 0.1){
+    print("-")
+  }
+}
+
+significanceSymbol(x = airquality$Ozone, y = airquality$Temp)
+```
+
+
+# For loops 
+
+---------------------------------------------------------------------------------------------------------
+
+### Exercise 5
+
+5a.
+```{r}
+
+# Use na.rm = TRUE by default to avoid missing values 
+# in mean and sd calculation
+# 
+# In addition let's define a number of decimal plates to 
+# round the output values (ndigits argument)
+#
+printMeanStd <- function(x, na.rm=TRUE, ndigits=2, ...){ 
+  
+  # Check if x is a matrix or a dataframe
+  # If not stop the function execution
+  #
+  if(!is.matrix(x) & !is.data.frame(x)){
+    stop("x must be a matrix or data frame")
+  }
+  
+  # Calculate the mean and stdev for each column i
+  # and print it to the console
+  # 
+  for(i in 1:ncol(x)){ # let's iterate from 1 to ncol(x)
+    
+    # Paste is used to concatenate the text that is 
+    # outputed
+    #
+    print(paste("Column nr", i, colnames(x)[i], ":"))
+    
+    print(paste("Mean =", 
+                round(mean(x[,i], na.rm = na.rm), ndigits)))
+    
+    print(paste("Std-dev. =", 
+                round(sd(x[,i], na.rm = na.rm), ndigits)))
+  }
+}
+
+printMeanStd(airquality)
+```
+
+5b.
+```{r}
+
+calcCorrelation <- function(xvec, ymat, thresh){
+  
+  # Check if xvec is a numeric vector
+  # If not stop the function execution
+  if(!is.numeric(xvec)){
+    stop("xvec must be a numeric vector")
+  }
+  
+  # Check if ymat is a matrix or a dataframe
+  # stop if not
+  if(!is.matrix(ymat) & !is.data.frame(ymat)){
+    stop("ymat must be a matrix or data frame")
+  }
+  
+  for(i in 1:ncol(ymat)){
+    # Calculate the correlation
+    corTest <- cor.test(xvec, ymat[,i])
+    corValue <- corTest$estimate
+    
+    if(abs(corValue) > thresh){
+      print(colnames(ymat)[i]) # Print the i-th variable name
+      print(corTest) # print the cor.test result
+    }
+  }
+}
+
+# Let's test the function
+calcCorrelation(airquality$Ozone, airquality[,-1], thresh = 0.6)
+```
+

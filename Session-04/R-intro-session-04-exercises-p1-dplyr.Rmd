@@ -1,5 +1,5 @@
 ---
-title: 'R-intro - Session 4'
+title: 'R-intro - Session 4 (part 1 - dplyr)'
 author: "João Gonçalves"
 date: "31 de Julho de 2018"
 output:
@@ -73,7 +73,7 @@ knitr::opts_chunk$set(echo = TRUE)
 | `summarise()`    | Summarise values by groups
 
 
-To start using the `dplyr` package first you have to install and then load it. For that purpose, use the following lines of R code:
+To start using the `dplyr` package first you have to install it and then load it in the R session. For that purpose, use the following lines of R code:
 
 ```{r eval=FALSE}
 
@@ -117,7 +117,7 @@ It's even possible to select ranges of columns using the name of the first and o
 select(iris, Sepal.Width:Petal.Width)
 ```
 
-To select all the columns except a specific column, use the `-` (subtraction) operator (also known as negative indexing).
+To select all the columns except a specific column, use the `-` (subtraction) operator (aka negative indexing).
 
 ```{r eval=FALSE}
 
@@ -195,6 +195,9 @@ iris[iris$Sepal.Length > 7, ]
 # Combining multiple conditions (using the comma is equivalent to using & (AND) operator)
 filter(iris, Sepal.Length > 7, Sepal.Width < 3.5)
 
+# Get the iris species virginica and versicolor
+filter(iris, Species %in% c("viriginica","versicolor"))
+
 ```
 
 
@@ -225,38 +228,39 @@ c) Select only the specimens from the _versicolor_ species
 ### The pipe operator: `%>%`
 
 
-This operator allows you to pipe the output from one function to the input of another function thus making possible to combine multiple `dplyr` functions for data manipulation. 
+This operator allows you to pipe the output from one function to the input of another function thus making it easier to combine multiple `dplyr` functions for data manipulation. 
 
 Instead of nesting functions (reading from the inside to the outside), the idea of of piping is to read the functions from left to right.
 
 Overall, this makes the code more readable and easier to understand.
 
-Here's an example:
+Here's a simple example:
 
 ```{r eval=FALSE}
+
 # Applying a filter to select only the virginica species 
 iris %>% filter(Species == "virginica")
-
 ```
 
-So you can see that the left side of the `%>%` pipe operator (the iris dataset) is used as the input for the function in the right side.
+You can see that the left side of the `%>%` pipe operator (the `iris` dataset) is used as the input for the function in the right side (`filter`).
 
 This way of manipulating is really powerful if used in a sequence of operations, like in this example used to make a histogram of sepal length for the _versicolor_ species:
 
 ```{r fig.height=4, fig.width=5, message=FALSE, warning=FALSE}
-# Note: pull is used to extract a single variable as a vector (not a table column)
+
+# Note: pull is used to extract a single variable as a vector 
+# (not a table column like when using select)
 
 iris %>% 
   filter(Species == "versicolor") %>% 
   pull(Sepal.Length) %>% 
   hist(main="Iris versicolor - Sepal length", col="light grey", xlab="Sepal length (cm)") %>% 
   abline(v = mean(iris %>% pull(Sepal.Length)), lwd=0.7, lty=2)
-
 ```
 
-Pretty cool right? ;-) Piping really helps to make the code more readable, otherwise you would need to create temporary variables and use nested functions to do such plot.
+Pretty cool right? ;-) Piping really helps to make the code more readable, otherwise you would need to create temporary variables and use nested functions to do a plot like in the example.
 
-To make things easier, in RStudio the `Ctrl` + `Shift` + `M` command can be used to write a pipe operator automatically.
+To make things easier, in RStudio the `Ctrl`+`Shift`+`M` command can be used to write a pipe operator automatically.
 
 
 
@@ -299,14 +303,17 @@ In data manipulation it is often useful to add new columns that are functions of
 
 ```{r eval=FALSE}
 
-# Calculate tree diameter times the height and divide by two:
-mutate(trees, GirthHeight = (Girth * Height) / 2)
+# Calculate tree diameter times the height and divide by two
+# and the girth to height ratio:
+
+mutate(trees, GirthHeight = (Girth * Height) / 2, 
+              GirthHeightRatio = Girth / Height)
 ```
 
 
 #### QUICK EXERCISE 4
 
-Using the `mutate` verb from the `dplyr` package and the `trees` dataset (containing girth (inches), height (feet) and volume (vol timber in cubic ft) for black cherry trees), answer to the following question:
+Using the `mutate` verb from the `dplyr` package and the `trees` dataset (containing girth (inches), height (feet) and volume (cubic ft) for black cherry trees), answer to the following question:
 
 a) Create two new columns named `Girth_cm` and `Height_mt` that respectively convert the tree diameter and the height to cm and meters (hint: 1 meter = 3.2808399 feet, and 1 inch = 2.54cm);
 
@@ -314,7 +321,7 @@ a) Create two new columns named `Girth_cm` and `Height_mt` that respectively con
 
 ```
 
-b) Using the pipe operator make a sequence of processes for: 
+b) Using the pipe operator make a sequence of processes to: 
     (i) add a new column named `hvr` as the ratio between the height and the volume, 
     (ii) select trees that have a `hrv` in the interval [3, 5[ and 
     (iii) count how many elements correspond to that condition.
@@ -325,17 +332,17 @@ b) Using the pipe operator make a sequence of processes for:
 
 
 
-### Creating summaries of the data frame using `summarise()` and `group_by()`
+### Creating data summaries using `summarise()` and `group_by()`
 
-The `summarise` function is very useful to create summary statistics for a given column or variable in a dataframe such as finding the mean or the standard-deviation. This is done by applying a function over selected columns. Let's see an example (with pipes too):
+The `summarise` function allows computing summary statistics for a given column or variable in a dataframe such as finding the mean or the standard-deviation. This is done by applying a function over selected columns. Let's see an example (with pipes too):
 
 ```{r}
 
-iris %>% summarise(sepalLength_avg = mean(Sepal.Length, na.rm=TRUE), # Average
-                   sepalLength_std = sd(Sepal.Length, na.rm=TRUE),   # Standard-deviation
-                   sepalLength_min = min(Sepal.Length, na.rm=TRUE),  # Minimum
-                   sepalLength_max = max(Sepal.Length, na.rm=TRUE),  # Maximum
-                   count = n())                                      # Number of observations
+iris %>% summarise(sepalLength_avg = mean(Sepal.Length), # Average
+                   sepalLength_std = sd(Sepal.Length),   # Standard-deviation
+                   sepalLength_min = min(Sepal.Length),  # Minimum
+                   sepalLength_max = max(Sepal.Length),  # Maximum
+                   count = n())                          # Number of observations
 
 ```
 
@@ -352,10 +359,11 @@ Let's check out some examples using (again) the iris dataset to compare differen
 iris %>% 
   group_by(Species) %>% 
   summarise(sepalLength_avg = mean(Sepal.Length, na.rm=TRUE), # Average
-                   sepalLength_std = sd(Sepal.Length, na.rm=TRUE),   # Standard-deviation
-                   sepalLength_min = min(Sepal.Length, na.rm=TRUE),  # Minimum
-                   sepalLength_max = max(Sepal.Length, na.rm=TRUE),  # Maximum
-                   count = n())                                      # Number of observations
+            sepalLength_std = sd(Sepal.Length, na.rm=TRUE),   # Standard-deviation
+            sepalLength_min = min(Sepal.Length, na.rm=TRUE),  # Minimum
+            sepalLength_max = max(Sepal.Length, na.rm=TRUE),  # Maximum
+            count = n()) %>%                                  # Number of observations
+  knitr::kable(digits = 2)
 
 ```
 
@@ -366,7 +374,7 @@ The `group_by` verb also enables to use more than one grouping variable (separat
 ```{r}
 
 npk %>% 
-  group_by(block, N) %>% 
+  group_by(block, N) %>% # Experiemntal block {1,...,6} vs. N(itrogen) application {0,1}
   summarise(avg_yield = mean(yield),
             std_yield = sd(yield),
             count = n())
@@ -375,7 +383,7 @@ npk %>%
 
 #### QUICK EXERCISE 5
 
-a) Using the `group_by` and the `summarise` verbs with the `PlantGrowth` dataset, calculate the minimum and the maximum, the quartiles 25%, 50% and 75% of the `weight` along with the number of observations by experimental group (variable `group`).
+a) Using the `group_by` and the `summarise` verbs with the `PlantGrowth` dataset, calculate the minimum, maximum, and the 25%, 50% and 75% quartiles of the `weight` along with the number of observations by experimental group (variable `group`).
 
 ```{r}
 

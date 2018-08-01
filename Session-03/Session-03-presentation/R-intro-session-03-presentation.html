@@ -823,11 +823,11 @@ print(myList)
 </code></pre>
 
 <pre><code>$x
- [1]  1.5628042 -0.7477014 -1.7688731  0.2663936  0.1728569 -0.3122292
- [7] -0.4887736 -0.4024282  0.2958529 -0.4813687
+ [1] -0.347418498 -1.072266349  0.767175365  0.004775063  0.812081056
+ [6] -0.525053624  0.263281923 -1.978511526  0.999902774 -0.162634656
 
 $y
-[1]  0.1826988  0.6533442  0.3765566 -0.5354167 -0.7589282
+[1]  0.92645259  0.50208423 -0.09504507  0.77351698 -0.84975169
 
 $z
      [,1] [,2] [,3]
@@ -851,22 +851,22 @@ $z
 myList[[1]]
 </code></pre>
 
-<pre><code> [1]  1.5628042 -0.7477014 -1.7688731  0.2663936  0.1728569 -0.3122292
- [7] -0.4887736 -0.4024282  0.2958529 -0.4813687
+<pre><code> [1] -0.347418498 -1.072266349  0.767175365  0.004775063  0.812081056
+ [6] -0.525053624  0.263281923 -1.978511526  0.999902774 -0.162634656
 </code></pre>
 
 <pre><code class="r"># Access the list by name using [[]] or $
 myList[[&quot;y&quot;]]
 </code></pre>
 
-<pre><code>[1]  0.1826988  0.6533442  0.3765566 -0.5354167 -0.7589282
+<pre><code>[1]  0.92645259  0.50208423 -0.09504507  0.77351698 -0.84975169
 </code></pre>
 
 <pre><code class="r"># or
 myList$y
 </code></pre>
 
-<pre><code>[1]  0.1826988  0.6533442  0.3765566 -0.5354167 -0.7589282
+<pre><code>[1]  0.92645259  0.50208423 -0.09504507  0.77351698 -0.84975169
 </code></pre>
 
 </div>
@@ -1045,7 +1045,7 @@ NAME &lt;- function(ARGUMENTS) {
 </section>
 <section data-transition="linear" data-transition-speed="default">
 <h3>Examples of custom functions</h3>
-<div class="column column1 slideContent small-code" >
+<div class="slideContent small-code" >
 <p>1) A single input function that will check how many missing values a vector has:</p>
 
 <pre><code class="r">count_NA &lt;- function(x){
@@ -1061,12 +1061,12 @@ count_NA(airquality$Ozone)
 <pre><code>[1] 37
 </code></pre>
 
-
 </div>
 
-<div class="column column2 slideContent small-code" >
-
-
+</section>
+<section data-transition="linear" data-transition-speed="default">
+<h3>Examples of custom functions</h3>
+<div class="slideContent small-code" >
 <p>2) A function to calculate the Normalized Difference Vegetation between the reflectance values of the red and near-infrared bands:</p>
 
 <pre><code class="r">ndvi &lt;- function(red, nir){
@@ -1089,6 +1089,7 @@ ndvi(0.1, 0.4)
 <h3>If control statements</h3>
 <div class="column column1 slideContent small-code" >
 <ul>
+<li><p>If statements allow to control the flow of execution of a script</p></li>
 <li><p>The conditional if statement is used to test an expression</p>
 
 <ul>
@@ -1170,6 +1171,49 @@ temp_feel(23.5)
 </code></pre>
 
 <pre><code>[1] &quot;warm&quot;
+</code></pre>
+
+</div>
+
+</section>
+<section data-transition="linear" data-transition-speed="default">
+<h3>For loops</h3>
+<div class="slideContent small-code" >
+<ul>
+<li><p>A for loop is used to iterate through the elements of R objects.</p></li>
+<li><p>It is used to execute repetitive code statements for a particular number of times allowing to automate certain tasks. </p></li>
+</ul>
+
+<p>The general syntax of a for loop is as follows:</p>
+
+<pre><code class="r"># syntax of for loop
+
+for(i in 1:n) {
+
+  # &lt;do stuff here with i&gt;
+}
+</code></pre>
+
+<p>The <code>i</code> assumes any value defined in the set after <code>in</code></p>
+
+</div>
+
+</section>
+<section data-transition="linear" data-transition-speed="default">
+<h3>For loops</h3>
+<div class="slideContent small-code" >
+<pre><code class="r">for (i in 2015:2018){
+
+  output &lt;- paste(&quot;The year is&quot;, i)
+
+  print(output)
+}
+</code></pre>
+
+<pre><code>[1] &quot;The year is 2015&quot;
+[1] &quot;The year is 2016&quot;
+[1] &quot;The year is 2017&quot;
+[1] &quot;The year is 2018&quot;
 </code></pre>
 
 </div>

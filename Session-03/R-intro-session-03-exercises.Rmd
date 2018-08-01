@@ -184,7 +184,7 @@ c) Calculate `a2` times `b1`
 
 
 
-Lists are very flexible and, in fact, many outputs from R functions are formatted as _'list-like'_ object (although often these have specific classes). This is one of the reasons why learning to work with lists and know how to access their content is so important.
+Lists are very flexible and, in fact, many outputs from R functions are formatted as _'list-like'_ objects (although often these have specific classes). This is one of the reasons why learning to work with lists and know how to access their content is so important.
 
 To check the structure of R objects you can use the function `str()`. Let's see one example based on hypothesis testing from the previous session:
 
@@ -300,9 +300,14 @@ myHistogram <- function(x, ...) {
 
 
 # Let's call our brand new function on some sample data
-#
+# and write the output to a png file 
+
+png(filename = "hist.png", res = 300, height = 1500, width = 1800)
+
 myHistogram(airquality$Temp, xlab="Temperature (degrees F)", 
             main="Histogram of Temperature\n")
+
+dev.off()
 
 
 ```
@@ -324,7 +329,7 @@ ndvi(0.1, 0.4)
 ### Exercise 3
 
 
-a) Make a function called `Celsius2Kelvin` that converts temperature from Celsius to Fahrenheit (formula: T(K) = T(°C) + 273.15). Test it with `a <- 20.5`.
+a) Make a function called `Celsius2Kelvin` that converts temperature from Celsius to Kelvin (formula: T(K) = T(°C) + 273.15). Test it with `a <- 20.5`.
 
 ```{r}
 
@@ -342,7 +347,7 @@ c) Make a function named `recode2NA` to change values in an input vector to `NA`
 
 ```
 
-d) Write a function called `standardize.me` that takes a vector `x` as an argument, and returns a vector that standardizes the values of `x` (standardization means subtracting the mean and dividing by the standard deviation). Test it with with `d <- rnorm(100)`.
+d) Write a function called `standardize.me` that takes a vector `x` as an argument, and returns a vector that standardizes the values of `x` (standardization means subtracting the mean and dividing by the standard deviation). Test it with with `d <- rnorm(100, 100, 5)`.
 
 ```{r}
 
@@ -354,13 +359,13 @@ e) Create a function named `CoeffVar` that calculates the Coefficient of Variati
 
 ```
 
-f) Create a function that multiplies the two greatest elements of a vector and divides them by two. Test this function with the following vector `f <- rnorm(1000, 100, 10)`
+f) Create a function that multiplies the two largest values of a vector and divides them by two (hint: use `sort` for getting the two largest values). Test this function with the following vector `f <- rnorm(1000, 100, 10)`
 
 ```{r}
 
 ```
 
-g) Make a "personalized" version of a histogram with three vertical lines corresponding to each one of the quartiles of the distribution (hint: check `abline`). Test this function with the following vector `g <- rnorm(1000, 10, 3)`
+g) Make a "personalized" version of a histogram with three vertical lines corresponding to each one of the quartiles of the distribution (hint: check `abline` and the `v` argument which is the x-value(s) for vertical line(s)). Test this function with the following vector `g <- rnorm(1000, 10, 3)`
 
 ```{r}
 
@@ -445,13 +450,13 @@ temp_feel(22.5)
 
 ### Exercise 4
 
-a) Create a function that returns `TRUE` if the input argument `x` is positive and `FALSE` otherwise;
+a) Create a function that returns `TRUE` if the input argument `x` is positive and `FALSE` otherwise. Test the function with a positive and a negative value to see if it is working;
 
 ```{r}
 
 ```
 
-b) Create a function that checks if the Spearman correlation between two vectors (`x` and `y`) is higher than |r| > 0.7 (absolute value) and returns `TRUE` if it verifies that condition. Use `cor.test()` to calculate the correlation (hint: use list indexation in the `cor.test()` function);
+b) Create a function that checks if the Spearman correlation between two vectors (`x` and `y`) is higher than |r| > 0.6 (absolute value) and returns `TRUE` if it verifies that condition. Use `cor.test()` to calculate the correlation (hint: use list indexation to extract values from the `cor.test()` output). Test this function using vectors `Ozone` and `Temp` from the `airquality` dataset;
 
 ```{r}
 
@@ -464,8 +469,9 @@ c) Also using `cor.test()` function create a functions that checks if the p-valu
 - < 0.05 returns *;
 - < 0.01 returns **;
 - < 0.001 returns ***;
-
+ 
 (hint: also use here list indexation)
+Test this function using vectors `Ozone` and `Temp` from the `airquality` dataset.
 
 ```{r}
 
@@ -513,7 +519,9 @@ a) Do a function that prints the mean and the standard-deviation for each column
 
 ```
 
-b) Do a function that takes a __vector__ (named `x`) and a __matrix__ (named `y`) to calculate the correlation and prints the results __for each column__ in the matrix. Use function `cor.test` to calculate the Pearson correlation. If the correlation is higher than |rho| > 0.7 then print the result using `summary`. For testing the function, use `airquality$Ozone` as `x` and a matrix with all of the remaining columns from `airquality` as `y`.
+b) Create a function that takes a __vector__ (named `x`) and a __matrix__ (named `y`) to calculate the correlation and prints the results __for each column__ in the matrix. Use function `cor.test` to calculate the Pearson correlation. If the correlation is higher than |rho| > thresh (an input variable to be defined as a function argument) then show the result using the `print` function. 
+
+For testing the function, use `airquality$Ozone` as `x` and a matrix with all of the remaining columns from `airquality` as `y`. Set the thresh value to 0.6. 
 
 ```{r}
 
