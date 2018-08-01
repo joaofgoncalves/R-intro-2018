@@ -135,21 +135,19 @@ $(document).ready(function () {
 <li><p>A brief tour to the <code>tidyverse</code></p></li>
 <li>Data manipulation with the <code>dplyr</code> package
 <ul>
-<li><code>dplyr</code> verbs</li>
+<li>Main <code>dplyr</code> verbs</li>
 <li>The pipe <code>%&gt;%</code> operator</li>
 </ul></li>
 <li>Making pretty graphics with <code>ggplot2</code> - principles and main plot types
 <ul>
 <li>Histograms</li>
 <li>Boxplots</li>
-<li>Density plots</li>
-<li>Barplots</li>
+<li>Bar-plots</li>
 <li>Scatter-plots</li>
 <li>Trend lines (linear, loess, …)</li>
 <li>Making plots by groups</li>
 <li>Facets</li>
 </ul></li>
-<li><p>Linear models in R</p></li>
 </ul>
 </div>
 <div id="the-dplyr-package" class="section level1">
@@ -165,7 +163,7 @@ $(document).ready(function () {
 <div id="why-is-it-useful" class="section level2">
 <h2>Why is it useful?</h2>
 <ul>
-<li><p>The <code>dplyr</code> package is perhaps one of the most useful packages in the <code>tidyverse</code> (which is a collection of R packages designed for data science) to manipulate data in R, offering a more expressive, human-readable and friendly alternative to many base R functions</p></li>
+<li><p>The <code>dplyr</code> package is one of the most useful packages in the <code>tidyverse</code> (which is a collection of R packages designed for data science) to manipulate data in R, offering a more expressive, human-readable and friendly alternative to many base R functions</p></li>
 <li><p>The package contains a set of functions (or “verbs”) that perform common data manipulation operations</p></li>
 <li><p>Examples of these operations are filtering rows, selecting specific columns (or column ranges), re-ordering rows, adding new columns and summarizing data</p></li>
 </ul>
@@ -176,7 +174,7 @@ $(document).ready(function () {
 <table>
 <thead>
 <tr class="header">
-<th>dplyr verbs</th>
+<th><em>dplyr</em> verbs</th>
 <th>Description</th>
 </tr>
 </thead>
@@ -199,7 +197,7 @@ $(document).ready(function () {
 </tr>
 <tr class="odd">
 <td><code>group_by()</code></td>
-<td>Allows for group aggregration operations</td>
+<td>Allows for group aggregation operations</td>
 </tr>
 <tr class="even">
 <td><code>summarise()</code></td>
@@ -211,28 +209,214 @@ $(document).ready(function () {
 <pre class="r"><code>install.packages(&quot;dplyr&quot;, dependencies = TRUE)</code></pre>
 <p>After installing the package, let´s load it!</p>
 <pre class="r"><code>library(dplyr)</code></pre>
-<pre><code>## Warning: package 'dplyr' was built under R version 3.4.4</code></pre>
-<pre><code>## 
-## Attaching package: 'dplyr'</code></pre>
-<pre><code>## The following objects are masked from 'package:stats':
-## 
-##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union</code></pre>
-<p>Now you are reading for some fancy data manipulation <f0><U+009F><U+0098><U+0084></p>
+<p>Now you are reading for some fancy data manipulation! ;-)</p>
 <div id="selecting-columns-using-select" class="section level3">
 <h3>Selecting columns using <code>select()</code></h3>
-<p>Put simply, <code>select</code> allows to subset columns from your dataset in a way similar to the indexation operator (<code>[]</code>). The advantage here is that using an explicit verb for that operaton makes the code more clear and easy to read.</p>
-<pre class="r"><code>select(iris, Petal.Length, Petal.Width)</code></pre>
+<p>Put simply, <code>select</code> allows to subset or extract columns from a dataframe in a way similar to the indexation operator (<code>[]</code>). The advantage here is that using an explicit verb for that operation makes the code more clear and readable.</p>
+<pre class="r"><code># An example with the iris dataframe for selecting two columns
+select(iris, Petal.Length, Petal.Width)</code></pre>
+<p>It is also possible to select ranges of columns using a sequence of integer positions:</p>
+<pre class="r"><code># Selecting the two first columns
+select(iris, 1:2)</code></pre>
+<p>It’s even possible to select ranges of columns using the name of the first and of the last:</p>
+<pre class="r"><code># Selecting the clumns from Sepal.Width to Petal.Width
+select(iris, Sepal.Width:Petal.Width)</code></pre>
+<p>To select all the columns except a specific column, use the <code>-</code> (subtraction) operator (also known as negative indexing).</p>
+<pre class="r"><code># Selecting all columns except Species
+select(iris, -Species)</code></pre>
+<p>Some additional options to select columns based on a specific criteria:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Select criterion</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>starts_with()</code></td>
+<td>Select columns that starts with a character string</td>
+</tr>
+<tr class="even">
+<td><code>ends_with()</code></td>
+<td>Select columns that end with a character string</td>
+</tr>
+<tr class="odd">
+<td><code>contains()</code></td>
+<td>Select columns that contain a character string</td>
+</tr>
+<tr class="even">
+<td><code>matches()</code></td>
+<td>Select columns that match a regular expression</td>
+</tr>
+<tr class="odd">
+<td><code>one_of()</code></td>
+<td>Select columns names that are from a group of names</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code># Selecting the columns that with with the string &quot;petal&quot;
+select(iris, starts_with(&quot;petal&quot;))
+
+# Selecting the columns that end with the string &quot;length&quot;
+select(iris, ends_with(&quot;length&quot;))</code></pre>
+<div id="quick-exercise-1" class="section level4">
+<h4>QUICK EXERCISE 1</h4>
+<p>Using the <code>select</code> verb from the <code>dplyr</code> package and the <code>airquality</code> dataset, answer to the following questions:</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Select the first three columns</p></li>
+<li><p>Select all columns except <code>Ozone</code> and <code>Temp</code></p></li>
+<li><p>Select columns ranging from <code>Solar.R</code> to <code>Day</code></p></li>
+</ol>
 </div>
 </div>
+<div id="selecting-rows-with-filter" class="section level3">
+<h3>Selecting rows with <code>filter()</code></h3>
+<p>The <code>filter</code> verb allows you to select a subset of rows in a data frame.</p>
+<p>Like all single verbs, the first argument is a dataframe. The second and subsequent arguments refer to variables within that dataframe which are used to write test conditions used for row selection.</p>
+<p>Places where the condition evaluates to <code>TRUE</code> are selected.</p>
+<p>One of the coolest things about <code>filter</code> is that it allows to combine multiple test conditions.</p>
+<p>You can use the Boolean operators (e.g. &amp; (AND), | (OR), ! (NOT), &gt;, &lt;, &gt;=, &lt;=, !=, %in%) to create the logical tests.</p>
+<p>Let’s see some examples:</p>
+<pre class="r"><code># Select iris specimens with sepal length higher than 7 (cm)
+filter(iris, Sepal.Length &gt; 7)
+
+# This is equivalent to:
+iris[iris$Sepal.Length &gt; 7, ]
+
+# Combining multiple conditions (using the comma is equivalent to using &amp; (AND) operator)
+filter(iris, Sepal.Length &gt; 7, Sepal.Width &lt; 3.5)</code></pre>
+<div id="quick-exercise-2" class="section level4">
+<h4>QUICK EXERCISE 2</h4>
+<p>Using the <code>filter</code> verb from the <code>dplyr</code> package and the <code>iris</code> dataset, answer to the following questions:</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Select iris specimens with a Petal length equal or higher than 5</p></li>
+<li><p>Select iris specimens with a Petal length equal or higher than 3 <em>and</em> a Petal width smaller than 1.2 <em>or</em> a Sepal width smaller than 2.8</p></li>
+<li><p>Select only the specimens from the <em>versicolor</em> species</p></li>
+</ol>
 </div>
-<div id="list-objects" class="section level1">
-<h1>List objects</h1>
-<hr />
-<div id="exercise-1" class="section level3">
-<h3>Exercise 1</h3>
+</div>
+<div id="the-pipe-operator" class="section level3">
+<h3>The pipe operator: <code>%&gt;%</code></h3>
+<p>This operator allows you to pipe the output from one function to the input of another function thus making possible to combine multiple <code>dplyr</code> functions for data manipulation.</p>
+<p>Instead of nesting functions (reading from the inside to the outside), the idea of of piping is to read the functions from left to right.</p>
+<p>Overall, this makes the code more readable and easier to understand.</p>
+<p>Here’s an example:</p>
+<pre class="r"><code># Applying a filter to select only the virginica species 
+iris %&gt;% filter(Species == &quot;virginica&quot;)</code></pre>
+<p>So you can see that the left side of the <code>%&gt;%</code> pipe operator (the iris dataset) is used as the input for the function in the right side.</p>
+<p>This way of manipulating is really powerful if used in a sequence of operations, like in this example used to make a histogram of sepal length for the <em>versicolor</em> species:</p>
+<pre class="r"><code># Note: pull is used to extract a single variable as a vector (not a table column)
+
+iris %&gt;% 
+  filter(Species == &quot;versicolor&quot;) %&gt;% 
+  pull(Sepal.Length) %&gt;% 
+  hist(main=&quot;Iris versicolor - Sepal length&quot;, col=&quot;light grey&quot;, xlab=&quot;Sepal length (cm)&quot;) %&gt;% 
+  abline(v = mean(iris %&gt;% pull(Sepal.Length)), lwd=0.7, lty=2)</code></pre>
+<p><img src="data:image/png;base64,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" width="480" /></p>
+<p>Pretty cool right? ;-) Piping really helps to make the code more readable, otherwise you would need to create temporary variables and use nested functions to do such plot.</p>
+<p>To make things easier, in RStudio the <code>Ctrl</code> + <code>Shift</code> + <code>M</code> command can be used to write a pipe operator automatically.</p>
+</div>
+<div id="sorting-rows-with-arrange" class="section level3">
+<h3>Sorting rows with <code>arrange()</code></h3>
+<p>The <code>arrange</code> verb allows reordering rows.</p>
+<p>It takes a data frame, and a set of column names (or more complicated expressions) to order by. If you provide more than one column name, each additional column will be used to break ties in the values of preceding columns:</p>
+<pre class="r"><code># Sort by ascending order (default) of sepal length
+arrange(iris, Sepal.Length)
+iris %&gt;% arrange(Sepal.Length) # OR using the pipe
+  
+# Sort by ascending order of sepal and then by petal length 
+arrange(iris, Sepal.Length, Petal.Length)
+iris %&gt;% arrange(Sepal.Length, Petal.Length)
+
+# Sort by descending order of petal width
+arrange(iris, desc(Petal.Width))
+iris %&gt;% arrange(desc(Petal.Width))</code></pre>
+<div id="quick-exercise-3" class="section level4">
+<h4>QUICK EXERCISE 3</h4>
+<p>Using the <code>arrange</code> verb from the <code>dplyr</code> package and the <code>iris</code> dataset, answer to the following question:</p>
+<ol style="list-style-type: lower-alpha">
+<li>Using the pipe operator sort by descending order of petal length and then by ascending order of sepal length</li>
+</ol>
+</div>
+</div>
+<div id="adding-new-columns-with-mutate" class="section level3">
+<h3>Adding new columns with <code>mutate()</code></h3>
+<p>In data manipulation it is often useful to add new columns that are functions of existing columns. This is the job of the <code>mutate</code> verb. Let’s see some examples</p>
+<pre class="r"><code># Calculate tree diameter times the height and divide by two:
+mutate(trees, GirthHeight = (Girth * Height) / 2)</code></pre>
+<div id="quick-exercise-4" class="section level4">
+<h4>QUICK EXERCISE 4</h4>
+<p>Using the <code>mutate</code> verb from the <code>dplyr</code> package and the <code>trees</code> dataset (containing girth (inches), height (feet) and volume (vol timber in cubic ft) for black cherry trees), answer to the following question:</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Create two new columns named <code>Girth_cm</code> and <code>Height_mt</code> that respectively convert the tree diameter and the height to cm and meters (hint: 1 meter = 3.2808399 feet, and 1 inch = 2.54cm);</p></li>
+<li>Using the pipe operator make a sequence of processes for:
+<ol style="list-style-type: lower-roman">
+<li>add a new column named <code>hvr</code> as the ratio between the height and the volume,</li>
+<li>select trees that have a <code>hrv</code> in the interval [3, 5[ and</li>
+<li>count how many elements correspond to that condition.</li>
+</ol></li>
+</ol>
+</div>
+</div>
+<div id="creating-summaries-of-the-data-frame-using-summarise-and-group_by" class="section level3">
+<h3>Creating summaries of the data frame using <code>summarise()</code> and <code>group_by()</code></h3>
+<p>The <code>summarise</code> function is very useful to create summary statistics for a given column or variable in a dataframe such as finding the mean or the standard-deviation. This is done by applying a function over selected columns. Let’s see an example (with pipes too):</p>
+<pre class="r"><code>iris %&gt;% summarise(sepalLength_avg = mean(Sepal.Length, na.rm=TRUE), # Average
+                   sepalLength_std = sd(Sepal.Length, na.rm=TRUE),   # Standard-deviation
+                   sepalLength_min = min(Sepal.Length, na.rm=TRUE),  # Minimum
+                   sepalLength_max = max(Sepal.Length, na.rm=TRUE),  # Maximum
+                   count = n())                                      # Number of observations</code></pre>
+<pre><code>##   sepalLength_avg sepalLength_std sepalLength_min sepalLength_max count
+## 1        5.843333       0.8280661             4.3             7.9   150</code></pre>
+<p>Of course there are many other statistics that can used with <code>summarise</code>, for example: <code>quantile()</code>, <code>median()</code>, <code>n()</code> (which returns the length of a vector), <code>first()</code> (returns the first value), <code>last()</code> (returns the last value) and <code>n_distinct()</code> (which counts the number of distinct values). Custom functions are also supported.</p>
+<p>Although <code>summarise</code> is very useful for performing overall summaries it is even more handy when combined with <code>group_by</code>to make summaries for different groups in the data.</p>
+<p>The <code>group_by</code> uses the <em>“split-apply-combine”</em> concept to make statistical summaries by groups of observations. Using this we are able to “split” a data frame by some variable (e.g. a species, an experimental group, different regions), apply a function to each individual data frame (by different levels/groups) and then combine the output.</p>
+<p>Let’s check out some examples using (again) the iris dataset to compare different species:</p>
+<pre class="r"><code>iris %&gt;% 
+  group_by(Species) %&gt;% 
+  summarise(sepalLength_avg = mean(Sepal.Length, na.rm=TRUE), # Average
+                   sepalLength_std = sd(Sepal.Length, na.rm=TRUE),   # Standard-deviation
+                   sepalLength_min = min(Sepal.Length, na.rm=TRUE),  # Minimum
+                   sepalLength_max = max(Sepal.Length, na.rm=TRUE),  # Maximum
+                   count = n())                                      # Number of observations</code></pre>
+<pre><code>## # A tibble: 3 x 6
+##   Species  sepalLength_avg sepalLength_std sepalLength_min sepalLength_max
+##   &lt;fct&gt;              &lt;dbl&gt;           &lt;dbl&gt;           &lt;dbl&gt;           &lt;dbl&gt;
+## 1 setosa              5.01           0.352             4.3             5.8
+## 2 versico~            5.94           0.516             4.9             7  
+## 3 virgini~            6.59           0.636             4.9             7.9
+## # ... with 1 more variable: count &lt;int&gt;</code></pre>
+<p>Notice how the <code>group_by</code> was used to calculate the same summary but this time by different groups of observations made by each one of the iris species.</p>
+<p>The <code>group_by</code> verb also enables to use more than one grouping variable (separated by a comma). Here’s an example with the <code>npk</code> dataset (a classical N, P, K factorial plant growth experiment):</p>
+<pre class="r"><code>npk %&gt;% 
+  group_by(block, N) %&gt;% 
+  summarise(avg_yield = mean(yield),
+            std_yield = sd(yield),
+            count = n())</code></pre>
+<pre><code>## # A tibble: 12 x 5
+## # Groups:   block [?]
+##    block N     avg_yield std_yield count
+##    &lt;fct&gt; &lt;fct&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;int&gt;
+##  1 1     0          48.2     1.91      2
+##  2 1     1          59.9     4.10      2
+##  3 2     0          55.8     0.354     2
+##  4 2     1          59.2     0.919     2
+##  5 3     0          58.9     5.52      2
+##  6 3     1          62.6     9.69      2
+##  7 4     0          44.8     0.919     2
+##  8 4     1          55.4     9.33      2
+##  9 5     0          50.2     1.91      2
+## 10 5     1          50.9     1.56      2
+## 11 6     0          54.6     1.98      2
+## 12 6     1          58.1     1.27      2</code></pre>
+<div id="quick-exercise-5" class="section level4">
+<h4>QUICK EXERCISE 5</h4>
+<ol style="list-style-type: lower-alpha">
+<li>Using the <code>group_by</code> and the <code>summarise</code> verbs with the <code>PlantGrowth</code> dataset, calculate the minimum and the maximum, the quartiles 25%, 50% and 75% of the <code>weight</code> along with the number of observations by experimental group (variable <code>group</code>).</li>
+</ol>
+</div>
+</div>
 </div>
 </div>
 
