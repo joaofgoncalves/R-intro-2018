@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 
-## Objectives of session 4
+## Objectives of session 4 (_dplyr_)
 
 ---------------------------------------------------------------------------------------------------------
 
@@ -26,15 +26,6 @@ knitr::opts_chunk$set(echo = TRUE)
 * Data manipulation with the `dplyr` package
     + Main `dplyr` verbs
     + The pipe `%>%` operator
- 
-* Making pretty graphics with `ggplot2` - principles and main plot types
-    + Histograms
-    + Boxplots
-    + Bar-plots
-    + Scatter-plots
-    + Trend lines (linear, loess, ...)
-    + Making plots by groups 
-    + Facets
 
 
 # The _dplyr_ package
