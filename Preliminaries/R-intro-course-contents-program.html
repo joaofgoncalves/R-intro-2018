@@ -131,7 +131,8 @@ $(document).ready(function () {
 <div id="overview" class="section level1">
 <h1>Overview</h1>
 <p>In this introductory course to R you will learn how to master the basics of this beautiful and immensely useful open-source language. R currently has a growing number of users and its applications in both academia and in the private sector are also increasing in a yearly basis.</p>
-<p>The course will provide an introduction to the fundamental elements of R, starting from basic data structures and functions up to more complex stuff such as <code>if</code> conditionals and <code>for</code> loops. With the knowledge acquired from this course, you will be ready to undertake your own data analysis and be capable of pursuing more advanced topics.</p>
+<p>The course will provide an introduction to the fundamental elements of R, starting from basic data structures and functions up to more complex stuff such as <code>if</code> conditionals and <code>for</code> loops. Some basic notions regarding the <em>tidyverse</em> approach to data manipulation (<code>dplyr</code> package) and visualization (<code>ggplot2</code>) will also be explored.</p>
+<p>With the knowledge acquired from this course, you will be ready to undertake your own data analysis and (hopefully) be capable of pursuing more advanced topics.</p>
 <p>Our exploration will start by focusing on some key aspects of R as programming language, its syntax and slowly introduce some of the functions used for basic statistics such as those used for summarizing data (e.g., mean, standard-deviation), pairwise correlation and linear models.</p>
 </div>
 <div id="pre-requisites" class="section level1">
@@ -140,52 +141,61 @@ $(document).ready(function () {
 </div>
 <div id="course-content-by-session" class="section level1">
 <h1>Course content by session</h1>
-<div id="session-1" class="section level2">
-<h2>Session 1</h2>
+<p>From vectors to sophisticated graphical data summaries with the <code>ggplot2</code> package these are the contents of this course:</p>
+<div id="session-1" class="section level3">
+<h3>Session 1</h3>
 <ul>
 <li><p>Exploring RStudio environment and workflow</p></li>
-<li><p>Understanding the very basics of Rmarkdown</p></li>
+<li><p>Understanding the basics of <em>Rmarkdown</em> format</p></li>
 <li><p>Starting a work session</p></li>
 <li><p>Using the help system</p></li>
 <li><p>R as a (sophisticated) calculator</p></li>
-<li><p>Vectors and matrices: understanding the differences</p></li>
-<li><p>Indexation by position, name or using logical conditions</p></li>
+<li><p>Vectors and matrices - understanding the differences</p></li>
+<li><p>Vector and matrix indexation</p></li>
 </ul>
 </div>
-<div id="session-2" class="section level2">
-<h2>Session 2</h2>
+<div id="session-2" class="section level3">
+<h3>Session 2</h3>
 <ul>
 <li><p>Time for recap session #1</p></li>
-<li><p>Factors</p></li>
+<li><p>Missing data: <code>NA</code> values</p></li>
+<li><p>Data frames (as an extension of matrices)</p></li>
+<li><p>Exploratory Data Analysis: scatter-plots and correlation analyses</p></li>
+<li><p>Factor variables</p></li>
+<li><p>Plotting and comparing distributions with boxplots</p></li>
+<li><p>Hypothesis testing (t-Test)</p></li>
+<li><p>Analysis of variance (one-way ANOVA)</p></li>
+</ul>
+</div>
+<div id="session-3" class="section level3">
+<h3>Session 3</h3>
+<ul>
 <li><p>Lists</p></li>
-<li><p>Functions</p></li>
+<li><p>User-defined/custom functions</p></li>
 <li><p>If conditionals</p></li>
 <li><p>For loops</p></li>
-<li><p>Combining all together</p></li>
-<li><p>Working with dataframes</p></li>
-<li><p>Data import/export in different formats</p></li>
+<li><p>Combining it all together</p></li>
 </ul>
 </div>
-<div id="session-3" class="section level2">
-<h2>Session 3</h2>
+<div id="session-4" class="section level3">
+<h3>Session 4</h3>
 <ul>
-<li><p>Time for recap session #2</p></li>
-<li><p>Linear models in R: intro notes</p></li>
-<li><p>Checking model assumptions</p></li>
-<li><p>Building linear models in R</p></li>
-<li><p>Checking model fit and interpreting results</p></li>
-<li><p>Model cross-validation (time to practice <code>for</code> loops)</p></li>
-</ul>
-</div>
-<div id="session-4" class="section level2">
-<h2>Session 4?</h2>
+<li><p>A brief tour to the <code>tidyverse</code></p></li>
+<li>Data manipulation with the <code>dplyr</code> package
 <ul>
-<li><p>An intro to the tidyverse:</p>
-<ul>
-<li><p>Summarizing data with dplyr</p></li>
-<li><p>Making pretty plots in ggplot2</p></li>
+<li>Main <code>dplyr</code> verbs</li>
+<li>The pipe <code>%&gt;%</code> operator</li>
 </ul></li>
-<li><p>Other topics in R-intro??</p></li>
+<li><p>Making pretty graphics with <code>ggplot2</code> - design principles</p></li>
+<li>Introduction to main types of plots/graphics:
+<ul>
+<li>Scatter-plots</li>
+<li>Regression, trend and smooth lines</li>
+<li>Histograms</li>
+<li>Boxplots</li>
+<li>Modifying plots</li>
+<li>Making plots by groups</li>
+</ul></li>
 </ul>
 </div>
 </div>

@@ -39,8 +39,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ---------------------------------------------------------------------------------------------------------
 
-
-[ __PLEASE READ THE INSTRUCTIONS BELOW VERY CAREFULLY__ ]
+![](warning32.png) [ __PLEASE READ THE INSTRUCTIONS BELOW VERY CAREFULLY!!__ ]
 
 
 __Note 1__: Probably, you already received some initial instructions to download and start the course project so, if that happened, ignore steps 1 to 3

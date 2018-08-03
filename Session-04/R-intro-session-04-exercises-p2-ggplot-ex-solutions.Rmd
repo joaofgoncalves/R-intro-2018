@@ -1,0 +1,131 @@
+---
+title: 'R-intro - Session 4 (part 2 - ggplot2) exercise solutions'
+author: "João Gonçalves"
+date: "1 de Agosto de 2018"
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 4
+    fig_height: 0.5
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Making scatterplots 
+
+---------------------------------------------------------------------------------------------------------
+
+
+#### Exercise 1
+
+```{r message=FALSE, warning=FALSE}
+
+library(ggplot2)
+```
+
+
+1a.
+```{r fig.height=4, fig.width=5.5}
+
+g <- ggplot(data = airquality, mapping = aes(x = Wind, y = Ozone)) + 
+     geom_point() + 
+     #geom_smooth(method = "lm")
+     geom_smooth()
+
+plot(g)
+```
+
+
+### Modifying and improving plots
+
+
+#### Exercise 2
+
+2a.
+```{r fig.height=4, fig.width=5.5}
+
+g <- ggplot(data = trees, mapping = aes(x = Girth, y = Height)) + 
+  geom_point() + 
+  geom_smooth()
+
+plot(g)
+```
+
+2b.
+```{r fig.height=4, fig.width=5.5}
+
+g <- ggplot(data = trees, mapping = aes(x = Girth, y = Height)) + 
+  geom_point() + 
+  geom_smooth() + 
+  labs(x="Tree girth (inch)", y="Height (ft)", title="Tree girth vs height")
+
+plot(g)
+```
+
+2c.
+```{r fig.height=4, fig.width=5.5}
+
+g <- ggplot(data = trees, mapping = aes(x = Girth, y = Height)) + 
+     geom_point(aes(size = Volume)) + 
+     geom_smooth() + # Use se = FALSE to remove the confidence bands
+     labs(x="Tree girth (inch)", y="Height (ft)", title="Tree girth vs height")
+
+plot(g)
+```
+
+
+
+## Visualizing distributions
+
+---------------------------------------------------------------------------------------------------------
+
+
+### Boxplots, histograms and density plots
+
+
+#### Exercise 3
+
+
+3a.
+```{r fig.height=4, fig.width=5.5}
+
+g <- ggplot(data = PlantGrowth, aes(x = weight)) + 
+     geom_histogram(bins = 10)
+
+median(PlantGrowth$weight)
+
+plot(g)
+```
+
+3b.
+```{r fig.height=4, fig.width=5.5}
+
+g1 <- ggplot(data = PlantGrowth, aes(x = weight, fill=group)) + 
+     geom_histogram(bins = 10)
+
+plot(g1)
+
+
+g2 <- ggplot(data = PlantGrowth, aes(x = weight, fill=group)) + 
+     geom_histogram(bins = 8) +
+     facet_grid(group ~ .)
+
+plot(g2)
+```
+
+3c.
+```{r fig.height=4, fig.width=5.5}
+
+g1 <- ggplot(data = PlantGrowth, aes(y = weight, x=group, fill=group)) + 
+     geom_boxplot()
+
+plot(g1)
+```
+
+
+
+

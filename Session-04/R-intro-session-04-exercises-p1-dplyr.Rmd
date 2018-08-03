@@ -241,12 +241,14 @@ This way of manipulating is really powerful if used in a sequence of operations,
 
 # Note: pull is used to extract a single variable as a vector 
 # (not a table column like when using select)
+library(dplyr)
 
 iris %>% 
   filter(Species == "versicolor") %>% 
   pull(Sepal.Length) %>% 
   hist(main="Iris versicolor - Sepal length", col="light grey", xlab="Sepal length (cm)") %>% 
   abline(v = mean(iris %>% pull(Sepal.Length)), lwd=0.7, lty=2)
+
 ```
 
 Pretty cool right? ;-) Piping really helps to make the code more readable, otherwise you would need to create temporary variables and use nested functions to do a plot like in the example.
@@ -299,6 +301,11 @@ In data manipulation it is often useful to add new columns that are functions of
 
 mutate(trees, GirthHeight = (Girth * Height) / 2, 
               GirthHeightRatio = Girth / Height)
+
+trees <- trees %>% mutate(GirthHeight = (Girth * Height) / 2, 
+                      GirthHeightRatio = Girth / Height)
+
+class(trees)
 ```
 
 

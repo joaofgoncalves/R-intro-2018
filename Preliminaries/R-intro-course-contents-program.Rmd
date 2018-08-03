@@ -3,11 +3,11 @@ title: 'R-intro: course contents'
 author: "João Gonçalves"
 date: "7 de Julho de 2018"
 output:
-  html_document: default
   pdf_document:
     toc: true
     toc_depth: 4
     fig_height: 0.5
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -20,7 +20,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 In this introductory course to R you will learn how to master the basics of this beautiful and immensely useful open-source language. R currently has a growing number of users and its applications in both academia and in the private sector are also increasing in a yearly basis.  
 
-The course will provide an introduction to the fundamental elements of R, starting from basic data structures and functions up to more complex stuff such as `if` conditionals and `for` loops. With the knowledge acquired from this course, you will be ready to undertake your own data analysis and be capable of pursuing more advanced topics. 
+The course will provide an introduction to the fundamental elements of R, starting from basic data structures and functions up to more complex stuff such as `if` conditionals and `for` loops. Some basic notions regarding the _tidyverse_ approach to data manipulation (`dplyr` package) and visualization (`ggplot2`) will also be explored. 
+
+With the knowledge acquired from this course, you will be ready to undertake your own data analysis and (hopefully) be capable of pursuing more advanced topics. 
 
 Our exploration will start by focusing on some key aspects of R as programming language, its syntax and slowly introduce some of the functions used for basic statistics such as those used for summarizing data (e.g., mean, standard-deviation), pairwise correlation and linear models.
 
@@ -34,12 +36,15 @@ Don't worry we will start slowly! :-) As such, you don't really need any prior k
 # Course content by session
 
 
-## Session 1
+From vectors to sophisticated graphical data summaries with the `ggplot2` package these are the contents of this course:
+
+
+### Session 1
 
 
  - Exploring RStudio environment and workflow
  
- - Understanding the very basics of Rmarkdown
+ - Understanding the basics of _Rmarkdown_ format
  
  - Starting a work session
  
@@ -47,12 +52,12 @@ Don't worry we will start slowly! :-) As such, you don't really need any prior k
  
  - R as a (sophisticated) calculator
  
- - Vectors and matrices: understanding the differences
+ - Vectors and matrices - understanding the differences
  
- - Indexation by position, name or using logical conditions 
+ - Vector and matrix indexation 
  
 
-## Session 2
+### Session 2
 
 
  - Time for recap session #1
@@ -65,37 +70,43 @@ Don't worry we will start slowly! :-) As such, you don't really need any prior k
 
  - Factor variables
  
- - Plotting distributions with boxplots
+ - Plotting and comparing distributions with boxplots
 
  - Hypothesis testing (t-Test)
  
  - Analysis of variance (one-way ANOVA)
  
 
-## Session 3
+### Session 3
 
 
- - Time for recap session #2
+ - Lists
 
- - Linear models in R: intro notes
-
- - Checking model assumptions
+ - User-defined/custom functions 
  
- - Building linear models in R
+ - If conditionals
  
- - Checking model fit and interpreting results
+ - For loops 
  
- - Model cross-validation (time to practice `for` loops)
+ - Combining it all together
 
 
-## Session 4?
+### Session 4
 
- - An intro to the tidyverse:
- 
-    - Summarizing data with dplyr
+
+ - A brief tour to the `tidyverse`
+
+ - Data manipulation with the `dplyr` package
+    + Main `dplyr` verbs
+    + The pipe `%>%` operator
+
+ - Making pretty graphics with `ggplot2` - design principles 
+
+ - Introduction to main types of plots/graphics:
+    + Scatter-plots
+    + Regression, trend and smooth lines
+    + Histograms
+    + Boxplots
+    + Modifying plots
+    + Making plots by groups 
     
-    - Making pretty plots in ggplot2     
-    
- - Logistic regression ??
-    
- - Other topics in R-intro??

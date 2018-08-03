@@ -1,0 +1,155 @@
+---
+title: 'R-intro - Session 4 (part 1 - dplyr) exercise solutions'
+author: "João Gonçalves"
+date: "31 de Julho de 2018"
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 4
+    fig_height: 0.5
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+
+## Objectives of session 4 (_dplyr_)
+
+---------------------------------------------------------------------------------------------------------
+
+* A brief tour to the `tidyverse`
+
+* Data manipulation with the `dplyr` package
+    + Main `dplyr` verbs
+    + The pipe `%>%` operator
+
+
+# The _dplyr_ package
+
+---------------------------------------------------------------------------------------------------------
+
+```{r, message=FALSE, warning=FALSE}
+
+library(dplyr)
+```
+
+
+### Selecting columns using `select()`
+
+
+#### QUICK EXERCISE 1
+
+Using the `select` verb from the `dplyr` package and the `airquality` dataset, answer to the following questions:
+
+1a.
+```{r R.options=list(max.print=10)}
+
+select(airquality, 1:3)
+```
+
+1b.
+```{r R.options=list(max.print=10)}
+
+select(airquality, -Ozone, -Temp)
+```
+
+1c.
+```{r R.options=list(max.print=10)}
+
+select(airquality, Solar.R:Day)
+```
+
+
+
+### Selecting rows with `filter()`
+
+#### QUICK EXERCISE 2
+
+2a.
+```{r R.options=list(max.print=10)}
+
+filter(iris, Petal.Length > 5)
+```
+
+2b.
+```{r R.options=list(max.print=10)}
+
+filter(iris, Petal.Length >= 3 & (Petal.Width < 1.2 | Sepal.Width < 2.8))
+```
+
+2c.
+```{r R.options=list(max.print=10)}
+
+filter(iris, Species == "versicolor")
+# OR
+filter(iris, Species %in% "versicolor")
+```
+
+
+
+### The pipe operator: `%>%`
+
+### Sorting rows with `arrange()`
+
+#### QUICK EXERCISE 3
+
+Using the `arrange` verb from the `dplyr` package and the `iris` dataset, answer to the following question:
+
+3a.
+```{r R.options=list(max.print=10)}
+
+iris %>% arrange(desc(Petal.Length), Sepal.Length)
+```
+
+
+
+### Adding new columns with `mutate()`
+
+
+#### QUICK EXERCISE 4
+
+4a.
+```{r R.options=list(max.print=10)}
+
+trees %>% mutate(Girth_cm = Girth * 2.54,
+                 Height_mt = Height / 3.2808399)
+```
+
+4b.
+```{r}
+
+trees %>% 
+  mutate(hvr = Height / Volume) %>%
+  filter(hvr >= 3, hvr < 5) %>% 
+  nrow
+```
+
+
+
+### Creating data summaries using `summarise()` and `group_by()`
+
+
+#### QUICK EXERCISE 5
+
+5a.
+```{r}
+
+PlantGrowth %>% 
+  group_by(group) %>% 
+  summarise(min = min(weight),
+            max = max(weight),
+            q25 = quantile(weight, probs=0.25),
+            q50 = quantile(weight, probs=0.50),
+            q75 = quantile(weight, probs=0.75),
+            Nobs   = n())
+
+```
+
+
+
+
+

@@ -3,11 +3,11 @@ title: 'R-intro - Session 4 (part 2 - ggplot2)'
 author: "João Gonçalves"
 date: "1 de Agosto de 2018"
 output:
+  html_document: default
   pdf_document:
     toc: true
     toc_depth: 4
     fig_height: 0.5
-  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -79,7 +79,7 @@ library(ggplot2)
 
 _ggplot2_ provides two ways to produce plot objects:
 
-- The `qplot()` function: or (q)uick plot which is a straightforward version but does not make full use of the power of ggplot2 (and hence not used in this session), and
+- The `qplot()` function: or (q)uick plot which is a straightforward version to make graphics but does not make full use of the power of ggplot2 (and hence not used in this session), and
 
 - The `ggplot()` function: (g)rammar of (g)raphics plot which has a steeper learning curve but allows much more flexibility and power when building graphs (which is the focus of this session)
 
@@ -128,7 +128,7 @@ However, we can modify this to add a 'straight' regression line by modifying the
 
 g <- ggplot(data = airquality, mapping = aes(x = Temp, y = Ozone)) + 
      geom_point() + 
-     geom_smooth(method = "lm")
+     geom_smooth(method = "lm") # Modify method to use linear regression
 
 plot(g)
 ```
@@ -137,7 +137,6 @@ plot(g)
 #### Exercise 1
 
 a) Using the `airquality` dataset create a scatterplot with a regression line between variables `Wind` speed (in the x-axis) and `Ozone` concentration (in the y-axis).
-
 ```{r}
 
 ```
@@ -149,9 +148,9 @@ a) Using the `airquality` dataset create a scatterplot with a regression line be
 
 Among other aspects we can define custom labels for each axis and the main title. 
 
-Keep in mind that good labels are critical for making your plots accessible and readable to a wider audience.
+Keep in mind that good labels are critical for making your plots accessible and readable to a wider audience! ;-)
 
-For this, we will use the `labs()` to modify axis, legend, and plot labels.  
+For this, we will use the `labs()` function to modify axis, legend, and plot labels.  
 
 ```{r fig.height=5, fig.width=6, message=FALSE, warning=FALSE}
 
@@ -169,11 +168,11 @@ plot(g)
 
 We can also change the color of points (or other geoms) and their size. This can be done in two ways:
 
-(i) _Statically_ - simply by changing the size, color or any other attribute outside the aesthetic mapping function `aes()`
+  i) _"Statically"_ - simply by changing the size, color or any other attribute outside the aesthetic mapping function `aes()`;
 
-(ii) _Dynamically_ - if we define a variable to change the color, size, etc. within the aesthetic mapping  function `aes()`
+  ii) _"Dynamically"_ - if we define a variable to change the color, size, etc. within the aesthetic mapping  function `aes()`:
 
-Let's test this using the previous example using _"static"_ color and size changes for points:
+Let's test this with the previous example and using _"static"_ color and size changes for points:
 
 ```{r fig.height=5, fig.width=6, message=FALSE, warning=FALSE}
 
@@ -208,13 +207,22 @@ Notice how both the colors (darker is higher wind speed) and the size (bigger is
 
 #### Exercise 2
 
-Now that you now how to modify plots let's use it to visualize the `trees` dataset (containing measurements of the _Girth_ in inches, _Height_ in ft and _Volume_ of timber in cubic ft for 31 black cherry trees). 
+Now that you know how to modify plots let's use it to visualize the `trees` dataset (containing measurements of the _Girth_ in inches, _Height_ in ft and _Volume_ of timber in cubic ft for 31 black cherry trees). 
 
 a) Using this data, make a scatterplot to visualize the association between `Girth` (x) and `Height` (y) and including a loess regression line;
+```{r}
+
+```
 
 b) Using the previous plot, modify the labels to include the correct info for the x and y axes as well as for the main title;
+```{r}
 
-b) Using the previous plot, modify the point size with the `Volume` variable.
+```
+
+c) Using the previous plot, modify the point size with the `Volume` variable.
+```{r}
+
+```
 
 
 
@@ -227,7 +235,7 @@ b) Using the previous plot, modify the point size with the `Volume` variable.
 
 In a nutshell, histograms provide an accurate representation of the distribution of numerical data which is often useful for exploratory data analysis (EDA).
 
-In _ggplot2_ making histograms is easy and involves the `geom_boxplot` function. Let's explore it with the ('good old') iris dataset:
+In _ggplot2_ making histograms is easy and involves the `geom_boxplot()` function. Let's explore it with the ('good old') iris dataset:
 
 ```{r fig.height=4, fig.width=2.5, message=FALSE, warning=FALSE}
 
@@ -252,9 +260,9 @@ g <- ggplot(data = iris, mapping = aes(
 plot(g)
 ```
 
-Wow! Much better ;-) Now we can see differences between species in terms of sepal length. 
+Wow! Much better ;-) Now we can see differences between species in terms of sepal length (or any other variable, it's just a matter of making a few changes). 
 
-This happens because we passed a _factor_ variable to x-axis and the `fill` attribute which tells ggplot to make groups of geometries.
+This happens because we passed a _factor_ variable to the `x` and the `fill` parameters which tells ggplot to make groups of geometries.
 
 The same idea can be applied for histograms and density plots, we just have to change the geometry type. See below:
 
@@ -292,7 +300,7 @@ Note how we can see the distribution of sepal length for different species and a
 
 The `fill` attribute is used to set a different color for each species dynamically (we used a variable inside `aes`) and the transparency is set using `alpha`.
 
-What about if we combined the two plot/geometry types:
+What about if we combined the two plot/geometry types??:
 
 ```{r fig.height=4, fig.width=6, message=FALSE, warning=FALSE}
 
@@ -302,10 +310,14 @@ g <- ggplot(data = iris) +
      geom_histogram(mapping = aes(x = Sepal.Length, y = ..density.., fill=Species),
                     alpha = 0.6) +
      geom_density(aes(x = Sepal.Length, color=Species),size=1) + 
-     scale_color_manual(values=c("dark red","dark green","dark blue"))
+     scale_color_manual(values=c("dark red","dark green","dark blue")) # Change line colors
 
 plot(g)
 ```
+
+Notice how we used the ggplot term `..density..` inside the histogram that tells this function to calculate not the frequency (which is the default) but the density which can be used to overlap with `geom_density()`.
+
+This plot includes also a customization on the (density) line colors using `scale_color_manual` which allow you to specify your own set of mappings from levels in the data to aesthetic values. This includes colors, labels, scale name, etc. (check `?scale_color_manual` for more info).
 
 
 #### Exercise 3
@@ -313,10 +325,19 @@ plot(g)
 Using the `PlantGrowth` dataset (with results from an experiment used to compare yields, measured by dried weight of plants, obtained under a control and two different treatment conditions) solve the following exercises:
 
 a) Make a histogram with weight distribution; 
+```{r}
+
+```
 
 b) Make a histogram with weight distribution by experimental group;
+```{r}
+
+```
 
 c) Make a boxplot with weight distribution by experimental group (with different colors for each one);
+```{r}
+
+```
 
 
 

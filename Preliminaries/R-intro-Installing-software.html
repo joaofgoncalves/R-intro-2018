@@ -138,15 +138,21 @@ $(document).ready(function () {
 </div>
 <div id="installing-optional-software-for-the-course" class="section level1">
 <h1>Installing optional software for the course</h1>
-<p>The following software is optional (but recommended) to this R-intro course. Since the course will mainly be developed in Rmarkdown format, it is generally a good idea enabling RStudio to create pdf files. We will also install a set of functionalities that will allow R to build package in Windows-</p>
-<p>Enabling R to build packages in Windows:</p>
+<p>The following software is optional (but recommended) to this R-intro course. Since the course will mainly be developed in Rmarkdown format, it is generally a good idea enabling RStudio to create pdf files. We will also install a set of functionalities that will allow R to build package (in Windows only.. for now).</p>
+<div id="building-packages-and-creating-pdf-files-in-windows" class="section level2">
+<h2>Building packages and creating pdf files in Windows</h2>
+<div id="enabling-r-to-build-packages" class="section level3">
+<h3>Enabling R to build packages</h3>
 <ul>
 <li>Install <em>RTools</em> - check which version corresponds to your installed R (usually the most recent is recommended) [<a href="https://cran.r-project.org/bin/windows/Rtools/index.html" class="uri">https://cran.r-project.org/bin/windows/Rtools/index.html</a>]</li>
 </ul>
-<p>Enabling R to build pdf files from RMarkdown/LaTeX:</p>
+</div>
+<div id="enabling-r-to-build-pdf-files-from-rmarkdownlatex" class="section level3">
+<h3>Enabling R to build pdf files from RMarkdown/LaTeX:</h3>
 <ul>
 <li>Install <em>MiKTeX</em> from [<a href="https://miktex.org/download" class="uri">https://miktex.org/download</a>]</li>
 </ul>
+</div>
 <div id="rtools-and-miktex-post-installation" class="section level3">
 <h3>RTools and MiKTeX post-installation</h3>
 <p>After installing these two programs, verify if the <em>Path</em> environmental variable (go to: Control Panel &gt; System &gt; Advanced &gt; Environmental variables) actually contains the two following paths for <em>Rtools</em> and <em>MiKTeX</em> binaries:</p>
@@ -155,6 +161,7 @@ $(document).ready(function () {
 <li><p><strong>“C:/Rtools/gcc-X.xx/bin”</strong> (X.xx - version number of the compiler; this may be different depending on the installation path of RTools)</p></li>
 <li><p><strong>“C:/MiKTeX/miktex/bin/x64/”</strong> (also depends on MiKTeX installation path)</p></li>
 </ul>
+</div>
 </div>
 </div>
 

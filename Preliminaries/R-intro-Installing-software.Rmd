@@ -23,22 +23,23 @@ The following software are required/mandatory to the course:
 
 # Installing optional software for the course
 
+The following software is optional (but recommended) to this R-intro course. Since the course will mainly be developed in Rmarkdown format, it is generally a good idea enabling RStudio to create pdf files. We will also install a set of functionalities that will allow R to build package (in Windows only.. for now).
 
-The following software is optional (but recommended) to this R-intro course. Since the course will mainly be developed in Rmarkdown format, it is generally a good idea enabling RStudio to create pdf files. We will also install a set of functionalities that will
-allow R to build package in Windows-
 
-Enabling R to build packages in Windows:    
+## Building packages and creating pdf files in Windows
+
+
+### Enabling R to build packages
 
 - Install _RTools_ - check which version corresponds to your installed R (usually the most recent is recommended) [https://cran.r-project.org/bin/windows/Rtools/index.html]
 
 
-Enabling R to build pdf files from RMarkdown/LaTeX:
+### Enabling R to build pdf files from RMarkdown/LaTeX:
 
 - Install _MiKTeX_ from [https://miktex.org/download]
 
 
 ### RTools and MiKTeX post-installation
-
 
 After installing these two programs, verify if the _Path_ environmental variable (go to: Control Panel > System > Advanced > Environmental variables) actually contains the two following paths for _Rtools_ and _MiKTeX_ binaries:
 
@@ -47,3 +48,4 @@ After installing these two programs, verify if the _Path_ environmental variable
 - __"C:/Rtools/gcc-X.xx/bin"__ (X.xx - version number of the compiler; this may be different depending on the installation path of RTools)
 
 - __"C:/MiKTeX/miktex/bin/x64/"__ (also depends on MiKTeX installation path)
+
